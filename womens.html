@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Voice of Women | The Spirit of Reform</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=UnifrakturMaguntia&family=IM+Fell+English+SC&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --paper-base: #e8dfcc;
+    --paper-grain: #dfd4bb;
+    --ink: #2b2b2b;
+    --ink-muted: rgba(43,43,43,0.7);
+    --accent: #7a3a3a;
+}
+
+body {
+    background-color: var(--paper-base);
+    background-image: 
+        linear-gradient(rgba(232, 223, 204, 0.4), rgba(223, 212, 187, 0.4)),
+        url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    color: var(--ink);
+    font-family: 'Libre Baskerville', serif;
+    line-height: 1.45;
+    padding-bottom: 50px;
+    padding-top: 60px; /* Offset for sticky navbar */
+}
+
+/* Sticky Navbar Styles */
+.sticky-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--paper-base);
+    border-bottom: 3px double var(--ink);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-links {
+    font-family: 'IM Fell English SC', serif;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: bold;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+/* Deckled edge / Paper texture container */
+.paper-container {
+    box-shadow: 0 0 20px rgba(0,0,0,0.1), inset 0 0 100px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.newspaper-header {
+    border-bottom: 3px double var(--ink);
+    border-top: 3px double var(--ink);
+    padding: 15px 0;
+    margin-bottom: 25px;
+}
+
+.title-main {
+    font-family: 'IM Fell English SC', serif;
+    letter-spacing: -2px;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    filter: contrast(1.2);
+}
+
+.column-divider {
+    border-right: 1px solid var(--ink-muted);
+}
+
+.drop-cap::first-letter {
+    float: left;
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 5rem;
+    line-height: 0.7;
+    padding-top: 10px;
+    padding-right: 12px;
+    color: var(--accent);
+}
+
+.woodblock-btn {
+    border: 2px solid var(--ink);
+    padding: 8px 15px;
+    font-family: 'IM Fell English SC', serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-block;
+    background: transparent;
+    box-shadow: 2px 2px 0px var(--ink);
+    cursor: pointer;
+}
+
+.woodblock-btn:hover {
+    background: var(--ink);
+    color: var(--paper-base);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--ink);
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--ink);
+    flex-shrink: 0;
+}
+
+.checkbox.checked {
+    background-color: var(--accent);
+    position: relative;
+}
+
+.checkbox.checked::after {
+    content: "✕";
+    font-size: 11px;
+    position: absolute;
+    top: -1px;
+    left: 2px;
+    color: white;
+}
+
+.sentiments-scroll {
+    background: rgba(0,0,0,0.05);
+    border: 1px solid var(--ink);
+    padding: 25px;
+    font-style: italic;
+    font-size: 0.9rem;
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
+}
+
+.sidebar-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.2rem;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 12px;
+    display: block;
+    text-transform: uppercase;
+}
+
+.paper-container:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>'), auto;
+}
+
+.ornament {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 1.5rem 0;
+    color: var(--ink);
+    opacity: 0.6;
+}
+
+.ads-box {
+    background-color: rgba(0,0,0,0.04);
+    border: 1px dashed var(--ink);
+    padding: 15px;
+}
+
+.highlight-box {
+    border: 2px solid var(--ink);
+    padding: 15px;
+    margin: 25px 0;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar {
+    color: var(--ink);
+}
+
+.historical-img {
+    width: 100%;
+    filter: sepia(0.5) contrast(1.1) grayscale(0.2);
+    border: 1px solid var(--ink);
+    padding: 4px;
+    background: white;
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+}
+
+.caption {
+    font-size: 0.7rem;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+</style>
+</head>
+
+<body class="p-2 md:p-8">
+
+<!-- STICKY NAVBAR -->
+<nav class="sticky-navbar">
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="transcendentalism.html">Transcendental</a>
+        <a href="utopianism.html">Utopianism</a>
+        <a href="womens.html">Women's Rights</a>
+        <a href="slavery.html">Anti-Slavery</a>
+        <a href="temperance.html">Temperance</a>
+        <a href="extras.html">Extras</a>
+        <a href="shop.html">Shop</a>
+    </div>
+</nav>
+
+<div class="max-w-6xl mx-auto border-4 border-double border-black p-6 bg-opacity-50 paper-container relative">
+
+<!-- TOP METADATA -->
+<div class="flex justify-between text-xs font-bold border-b-2 border-black mb-2 pb-1">
+    <span>Seneca Falls Intelligence</span>
+    <span class="uppercase tracking-[0.3em]">Mason Crow</span>
+    <span>Seneca Falls, N.Y. — Price: One Cent</span>
+</div>
+
+<!-- MASTHEAD -->
+<header class="text-center mb-8">
+    <h1 id="masthead" class="title-main text-6xl md:text-9xl mb-2">The Lily</h1>
+    <div class="newspaper-header flex flex-col md:flex-row justify-between items-center px-6 uppercase text-xs font-bold">
+        <div class="hidden md:block">Volume I</div>
+        <div id="rotatingQuote" class="text-2xl font-serif py-2 tracking-tight"></div>
+        <div id="dynamicDate"></div>
+    </div>
+</header>
+
+<!-- MAIN GRID -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+<!-- LEFT COLUMN: AGENDA & LEADERS -->
+<div class="md:col-span-1 column-divider pr-6 sidebar">
+    <section class="mb-8">
+        <span class="sidebar-title">The Reform Agenda</span>
+        <div class="todo-item"><div class="checkbox"></div> <span>Universal Suffrage</span></div>
+        <div class="todo-item"><div class="checkbox checked"></div> <span>Dress Reform (Bloomers)</span></div>
+        <div class="todo-item"><div class="checkbox checked"></div> <span>Property Rights (NY Act)</span></div>
+        <div class="todo-item"><div class="checkbox"></div> <span>Equal Wages</span></div>
+        <div class="todo-item"><div class="checkbox checked"></div> <span>Access to Education</span></div>
+        <div class="todo-item"><div class="checkbox"></div> <span>Political Office</span></div>
+    </section>
+
+    <div class="ornament">❧ ❦ ❧</div>
+
+    <div class="image-box">
+        <img src="bloomer.jpeg" alt="Amelia Bloomer" class="historical-img">
+        <p class="caption">Mrs. Amelia Bloomer, Editor & Visionary</p>
+    </div>
+
+    <section class="mt-4">
+        <span class="sidebar-title">Leaders of Note</span>
+        <ul class="text-[11px] space-y-3">
+            <li><strong>Lucretia Mott:</strong> The Quaker guiding light of the movement.</li>
+            <li><strong>Elizabeth Cady Stanton:</strong> Primary author of the Declaration of Sentiments.</li>
+            <li><strong>The Grimké Sisters:</strong> Pioneers who bridged the gap from Abolition to Rights.</li>
+        </ul>
+    </section>
+</div>
+
+<!-- CENTER COLUMN: MAIN ARTICLE -->
+<div class="md:col-span-2 column-divider px-4">
+    <article>
+        <h2 class="text-4xl md:text-6xl text-center mb-6 leading-none uppercase">
+            A Declaration of<br>
+            <span class="italic text-2xl mt-2 block normal-case font-serif">the Rights of Woman</span>
+        </h2>
+
+        <div class="image-box mb-6">
+            <img src="senecaFalls.jpeg" alt="Seneca Falls Convention" class="historical-img">
+            <p class="caption">The gathering at Seneca Falls: A turning point for the Republic.</p>
+        </div>
+
+        <p class="drop-cap text-base mb-6 text-justify leading-relaxed">
+            As women became the backbone of the Temperance and Abolitionist movements, a profound realization dawned: the chains they fought to break for others were mirrored in their own social standing. Comparing their treatment to that of the enslaved, and invigorated by the spirit of Transcendentalism, women have gathered at Seneca Falls to demand their place in the Republic.
+        </p>
+
+        <div class="sentiments-scroll my-8">
+            <h4 class="text-center mb-3 font-bold uppercase text-xs border-b border-black pb-1">From the Declaration of Sentiments</h4>
+            "We hold these truths to be self-evident: that all men and women are created equal... The history of mankind is a history of repeated injuries and usurpations on the part of man toward woman."
+        </div>
+
+        <p class="text-sm md:text-base mb-6 text-justify leading-relaxed">
+            Progress is hard-won. While the <strong>Married Women's Property Act</strong> has granted rights in New York, the rest of the Union remains stagnant. Success is found in small victories: Oberlin College has opened its doors, and the teaching profession expands, yet the ballot box remains guarded by the heavy hand of tradition.
+        </p>
+
+        <div class="highlight-box border-double border-4">
+            <h3 class="text-center text-xl font-bold mb-4 border-b border-black pb-1">Timeline of Milestones</h3>
+            <ul class="text-xs space-y-2 list-none">
+                <li class="pl-4 relative before:content-['❖'] before:absolute before:left-0"><strong>1833:</strong> Oberlin College accepts women.</li>
+                <li class="pl-4 relative before:content-['❖'] before:absolute before:left-0"><strong>1837:</strong> First Anti-Slavery Convention of American Women.</li>
+                <li class="pl-4 relative before:content-['❖'] before:absolute before:left-0"><strong>1848:</strong> Seneca Falls Convention; Declaration signed.</li>
+                <li class="pl-4 relative before:content-['❖'] before:absolute before:left-0"><strong>1848:</strong> NY Married Women's Property Act passed.</li>
+                <li class="pl-4 relative before:content-['❖'] before:absolute before:left-0"><strong>1849:</strong> <em>The Lily</em> begins publication.</li>
+            </ul>
+        </div>
+    </article>
+</div>
+
+<!-- RIGHT COLUMN: DISPATCH & ADS -->
+<div class="md:col-span-1 pl-6 sidebar">
+    <section class="mb-8">
+        <span class="sidebar-title">The Lily Dispatch</span>
+        <p class="text-[11px] mb-4 leading-relaxed italic">The first newspaper edited by and for women. Published by Amelia Bloomer, spreading the word of reform through the electric ether.</p>
+        <button class="woodblock-btn w-full text-xs" onclick="showNotice()">Subscribe: 50¢ / Year</button>
+    </section>
+
+    <div class="ornament">❧ ❦ ❧</div>
+
+    <div class="image-box">
+        <img src="stantonAnthony.jpeg" alt="Stanton and Anthony" class="historical-img">
+        <p class="caption">Stanton & Anthony: Partners in Reform</p>
+    </div>
+
+    <div class="ads-box p-4 mb-6">
+        <h4 class="text-xs font-bold text-center mb-2 uppercase underline">WANTED</h4>
+        <p class="text-[10px] italic mb-3 text-center">Educated women for teaching positions in the West. Salary: Modest, but the fulfillment of the mind is great.</p>
+        <div class="border-t border-black my-2 opacity-30"></div>
+        <p class="text-[10px] italic text-center">Patented Bloomer Suits: For the active woman who tires of the heavy corset. Practicality is the new virtue.</p>
+    </div>
+
+    <section class="highlight-box">
+        <span class="sidebar-title text-center text-sm">Reform Quiz</span>
+        <p class="text-[10px] mb-3 text-center">Which historical document served as the model for the Declaration of Sentiments?</p>
+        <button id="quizBtn" class="text-[9px] uppercase font-bold tracking-widest block mx-auto underline" onclick="revealQuiz()">Reveal Answer</button>
+        <p id="quizAns" class="hidden text-[10px] text-center mt-2 font-bold italic">The Declaration of Independence (1776)</p>
+    </section>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="mt-12 pt-6 border-t-4 border-double border-black text-center">
+    <div class="flex flex-col items-center mb-8">
+        <a href="index.html" class="woodblock-btn text-sm px-10">
+            ← Return to the Home of Reform
+        </a>
+    </div>
+
+    <div class="flex justify-between text-[9px] uppercase font-bold tracking-widest">
+        <div>Sources: NPS.gov/Wori; Declaration of Sentiments; Library of Congress.</div>
+        <div class="text-right">Editor-in-Chief: Amelia Bloomer</div>
+    </div>
+    <p class="text-[10px] italic mt-4 opacity-70">"Right is of no Sex – Truth is of no Color." Printed on the digital loom.</p>
+</footer>
+
+</div>
+
+<script>
+/* Typing Animation */
+const titleEl = document.getElementById("masthead");
+const fullText = "The Lily";
+titleEl.textContent = "";
+let i = 0;
+const typeInterval = setInterval(() => {
+    titleEl.textContent += fullText[i];
+    i++;
+    if (i >= fullText.length) clearInterval(typeInterval);
+}, 200);
+
+/* Date Setup */
+const dateEl = document.getElementById("dynamicDate");
+const fakeDate = new Date();
+fakeDate.setFullYear(1849);
+dateEl.textContent = fakeDate.toDateString();
+
+/* Rotating Quote */
+const quotes = [
+    "“Right is of no Sex – Truth is of no Color.”",
+    "“Obey that impulse toward liberty!”",
+    "“The world has never yet seen a truly great nation.”",
+];
+document.getElementById("rotatingQuote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+function showNotice() {
+    const notice = document.createElement('div');
+    notice.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#e8dfcc] border-4 border-double border-black p-6 z-[2000] text-center shadow-2xl';
+    notice.innerHTML = `
+        <h2 class="font-serif text-xl mb-4">Subscription Logged</h2>
+        <p class="text-sm italic mb-4">The next issue arrives by carriage in three days. Please ensure your post-box is clear.</p>
+        <button onclick="this.parentElement.remove()" class="woodblock-btn text-xs">Understood</button>
+    `;
+    document.body.appendChild(notice);
+}
+
+function revealQuiz() {
+    document.getElementById('quizAns').classList.remove('hidden');
+    document.getElementById('quizBtn').classList.add('hidden');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where's Waldo? – Emerson Edition</title>
+    <style>
+        :root {
+            --bg-color: #2d3e50;
+            --forest-ground: #386641;
+            --modal-bg: #fdf6e3;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        /* Header UI */
+        header {
+            background: #fff;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            color: #333;
+            margin: 0;
+        }
+
+        .target-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        /* Small preview of Waldo for the header */
+        .preview-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            overflow: hidden;
+            background: #e6f7ff;
+        }
+
+        /* Game Board */
+        #game-stage {
+            flex-grow: 1;
+            position: relative;
+            background-color: var(--forest-ground);
+            /* Add a subtle pattern to the ground */
+            background-image: radial-gradient(#4a7c42 15%, transparent 16%), radial-gradient(#2e4c29 15%, transparent 16%);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            overflow: hidden;
+            cursor: default;
+        }
+
+        /* Entity Base Styles */
+        .entity {
+            position: absolute;
+            transition: transform 0.1s ease;
+            filter: drop-shadow(0px 2px 1px rgba(0,0,0,0.4));
+        }
+
+        .entity:hover {
+            transform: scale(1.1);
+            z-index: 99999 !important; /* Force top on hover */
+            cursor: pointer;
+        }
+
+        /* Win Modal */
+        #modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: var(--modal-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid #d4c5a9;
+        }
+
+        .modal-card h2 {
+            color: #d35400;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .fact-box {
+            background: #fff;
+            padding: 15px;
+            border-left: 4px solid #d35400;
+            margin: 20px 0;
+            text-align: left;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #219150;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Level 1: The Crowded Concord Woods</h1>
+        <div class="target-display">
+            <span>Find Waldo:</span>
+            <div class="preview-icon" id="header-preview"></div>
+        </div>
+    </header>
+
+    <div id="game-stage">
+        <!-- SVG Elements injected here -->
+    </div>
+
+    <div id="modal-overlay">
+        <div class="modal-card">
+            <h2>You Found Him!</h2>
+            <p>Excellent eye!</p>
+            <div class="fact-box">
+                <strong style="display:block; margin-bottom:5px; font-style:normal;">Ralph Waldo Emerson Fact:</strong>
+                <span id="fact-text">Loading...</span>
+            </div>
+            <button onclick="initGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Graphics Engine: Generates SVG strings for game entities.
+         */
+        const Graphics = {
+            // Palette Configuration
+            colors: {
+                waldoRed: '#E31C25',
+                waldoWhite: '#FFFFFF',
+                jeansBlue: '#2C3E50',
+                treeDark: '#1b4332',
+                treeLight: '#2d6a4f',
+                bush: '#40916c',
+                rock: '#7f8c8d'
+            },
+            
+            // Arrays for randomization
+            palettes: {
+                shirts: ['#2980b9', '#27ae60', '#f1c40f', '#8e44ad', '#e67e22', '#c0392b', '#16a085'],
+                pants: ['#34495e', '#7f8c8d', '#2c3e50', '#95a5a6', '#5d4037'],
+                skin: ['#ffdbac', '#f1c27d', '#e0ac69', '#8d5524', '#c68642', '#5c3a21'],
+                hair: ['#2c3e50', '#8e44ad', '#d35400', '#f1c40f', '#000000', '#5d4037', '#ecf0f1']
+            },
+
+            // Helper to wrap content in SVG tag
+            wrap: (content, width, height) => 
+                `<svg viewBox="0 0 ${width} ${height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">${content}</svg>`,
+
+            /**
+             * The Target: Standard Waldo
+             */
+            getWaldo: function() {
+                const body = `
+                    <!-- Legs -->
+                    <rect x="35" y="100" width="12" height="40" fill="${this.colors.jeansBlue}"/>
+                    <rect x="53" y="100" width="12" height="40" fill="${this.colors.jeansBlue}"/>
+                    
+                    <!-- Torso (Striped Shirt) -->
+                    <rect x="30" y="60" width="40" height="45" rx="5" fill="${this.colors.waldoWhite}"/>
+                    <path d="M30 65 h40 v5 h-40 z M30 75 h40 v5 h-40 z M30 85 h40 v5 h-40 z M30 95 h40 v5 h-40 z" fill="${this.colors.waldoRed}"/>
+                    
+                    <!-- Arms -->
+                    <rect x="15" y="62" width="15" height="10" rx="3" fill="${this.colors.waldoWhite}" transform="rotate(20 15 62)"/>
+                    <rect x="15" y="65" width="15" height="4" rx="1" fill="${this.colors.waldoRed}" transform="rotate(20 15 62)"/>
+                    <rect x="70" y="62" width="15" height="10" rx="3" fill="${this.colors.waldoWhite}" transform="rotate(-20 85 62)"/>
+                    <rect x="70" y="65" width="15" height="4" rx="1" fill="${this.colors.waldoRed}" transform="rotate(-20 85 62)"/>
+
+                    <!-- Head -->
+                    <circle cx="50" cy="45" r="14" fill="${this.palettes.skin[0]}"/>
+                    
+                    <!-- Glasses (Iconic Round) -->
+                    <g stroke="#333" stroke-width="2" fill="none">
+                        <circle cx="44" cy="44" r="5"/>
+                        <circle cx="56" cy="44" r="5"/>
+                        <line x1="49" y1="44" x2="51" y2="44"/>
+                    </g>
+                    
+                    <!-- Hat -->
+                    <path d="M36 36 Q50 30 64 36" stroke="${this.colors.waldoRed}" stroke-width="2" fill="none"/>
+                    <path d="M38 36 L38 25 Q50 20 62 25 L62 36 Z" fill="${this.colors.waldoWhite}"/>
+                    <path d="M38 32 H62" stroke="${this.colors.waldoRed}" stroke-width="2"/>
+                    <circle cx="50" cy="20" r="4" fill="${this.colors.waldoRed}"/>
+                `;
+                return this.wrap(body, 100, 150);
+            },
+
+            /**
+             * Randomized Decoy Generator
+             * Creates diverse characters to clutter the scene.
+             */
+            getDecoy: function() {
+                // Randomize attributes
+                const shirtC = this.palettes.shirts[Math.floor(Math.random() * this.palettes.shirts.length)];
+                const pantC = this.palettes.pants[Math.floor(Math.random() * this.palettes.pants.length)];
+                const skinC = this.palettes.skin[Math.floor(Math.random() * this.palettes.skin.length)];
+                const hairC = this.palettes.hair[Math.floor(Math.random() * this.palettes.hair.length)];
+                
+                const hasGlasses = Math.random() > 0.7;
+                const hasHat = Math.random() > 0.5;
+                const isStriped = Math.random() > 0.8; // Some decoys wear stripes to confuse!
+
+                let torsoFill = `<rect x="30" y="60" width="40" height="45" rx="5" fill="${shirtC}"/>`;
+                if (isStriped) {
+                    // Vertical stripes or horizontal stripes in different color to differentiate from Waldo
+                     torsoFill += `<path d="M30 65 h40 v5 h-40 z M30 75 h40 v5 h-40 z M30 85 h40 v5 h-40 z M30 95 h40 v5 h-40 z" fill="rgba(255,255,255,0.3)"/>`;
+                }
+
+                const body = `
+                    <!-- Legs -->
+                    <rect x="35" y="100" width="12" height="40" fill="${pantC}"/>
+                    <rect x="53" y="100" width="12" height="40" fill="${pantC}"/>
+                    
+                    <!-- Torso -->
+                    ${torsoFill}
+                    
+                    <!-- Arms -->
+                    <rect x="15" y="62" width="15" height="10" rx="3" fill="${shirtC}" transform="rotate(20 15 62)"/>
+                    <rect x="70" y="62" width="15" height="10" rx="3" fill="${shirtC}" transform="rotate(-20 85 62)"/>
+
+                    <!-- Head -->
+                    <circle cx="50" cy="45" r="14" fill="${skinC}"/>
+                    
+                    <!-- Hair -->
+                    ${hasHat 
+                        ? `<path d="M35 38 L65 38 L60 25 H40 Z" fill="${hairC}"/> <path d="M35 38 Q50 30 65 38" fill="none" stroke="${hairC}" stroke-width="2"/>` 
+                        : `<path d="M36 40 Q50 25 64 40 L64 36 Q50 15 36 36 Z" fill="${hairC}"/>`
+                    }
+
+                    <!-- Optional Glasses (Square or thick to look different from Waldo) -->
+                    ${hasGlasses ? `<rect x="40" y="42" width="8" height="6" fill="none" stroke="#333" stroke-width="1.5"/><rect x="52" y="42" width="8" height="6" fill="none" stroke="#333" stroke-width="1.5"/><line x1="48" y1="45" x2="52" y2="45" stroke="#333" stroke-width="1.5"/>` : ''}
+                `;
+                return this.wrap(body, 100, 150);
+            },
+
+            getTree: function(variant) {
+                const color = variant % 2 === 0 ? this.colors.treeDark : this.colors.treeLight;
+                const body = `
+                    <rect x="42" y="85" width="16" height="15" fill="#5D4037"/>
+                    <path d="M20 85 L50 20 L80 85 Z" fill="${color}"/>
+                    <path d="M25 60 L50 10 L75 60 Z" fill="${color}"/>
+                `;
+                return this.wrap(body, 100, 100);
+            },
+
+            getBush: function() {
+                const c = this.colors.bush;
+                const body = `
+                    <circle cx="20" cy="40" r="20" fill="${c}"/>
+                    <circle cx="40" cy="30" r="25" fill="${c}"/>
+                    <circle cx="60" cy="40" r="20" fill="${c}"/>
+                    <circle cx="30" cy="50" r="20" fill="${c}"/>
+                    <circle cx="50" cy="50" r="20" fill="${c}"/>
+                `;
+                return this.wrap(body, 80, 60);
+            },
+
+            getRock: function() {
+                const c = this.colors.rock;
+                const body = `
+                    <path d="M10 40 Q 25 10 50 25 Q 80 15 90 40 Q 80 50 10 40" fill="${c}"/>
+                `;
+                return this.wrap(body, 100, 50);
+            }
+        };
+
+        // Game State & Config
+        const CONFIG = {
+            numTrees: 60,
+            numBushes: 30,
+            numRocks: 15,
+            numDecoys: 120, // High density
+            board: document.getElementById('game-stage'),
+            modal: document.getElementById('modal-overlay'),
+            factText: document.getElementById('fact-text'),
+            preview: document.getElementById('header-preview')
+        };
+
+        const EMERSON_FACTS = [
+            "He published 'Self-Reliance' in 1841, arguing that people should trust their own intuition.",
+            "Emerson was a mentor to Louisa May Alcott, author of 'Little Women'.",
+            "He resigned as a minister in 1832 because he disagreed with the church's administration of communion.",
+            "His nickname was the 'Sage of Concord'.",
+            "Emerson was an abolitionist and spoke out against slavery.",
+            "He wrote, 'The only way to have a friend is to be one.'"
+        ];
+
+        // Init Header Preview
+        CONFIG.preview.innerHTML = Graphics.getWaldo();
+
+        // Utilities
+        function rnd(min, max) { return Math.random() * (max - min) + min; }
+
+        function createNode(html, x, y, size, type) {
+            const div = document.createElement('div');
+            div.classList.add('entity');
+            div.innerHTML = html;
+            
+            // Positioning (percent)
+            div.style.left = `${x}%`;
+            div.style.top = `${y}%`;
+            div.style.width = `${size}px`;
+            
+            // Aspect Ratio Fixes based on type
+            if (type === 'person') div.style.height = `${size * 1.5}px`;
+            else if (type === 'bush') div.style.height = `${size * 0.75}px`;
+            else if (type === 'rock') div.style.height = `${size * 0.5}px`;
+            else div.style.height = `${size}px`; // tree
+            
+            // Z-Index Depth Sorting
+            // Higher Y (lower on screen) = Closer = Higher Z-Index
+            div.style.zIndex = Math.floor(y * 10);
+            
+            return div;
+        }
+
+        function winGame(e) {
+            e.stopPropagation();
+            const fact = EMERSON_FACTS[Math.floor(Math.random() * EMERSON_FACTS.length)];
+            CONFIG.factText.textContent = fact;
+            CONFIG.modal.classList.add('active');
+        }
+
+        function initGame() {
+            CONFIG.board.innerHTML = '';
+            CONFIG.modal.classList.remove('active');
+
+            // 1. Environment: Trees
+            for (let i = 0; i < CONFIG.numTrees; i++) {
+                const x = rnd(-2, 98); // Allow partial off-screen
+                const y = rnd(0, 92);
+                const size = rnd(70, 180);
+                CONFIG.board.appendChild(createNode(Graphics.getTree(i), x, y, size, 'tree'));
+            }
+
+            // 2. Environment: Bushes & Rocks (Clutter)
+            for (let i = 0; i < CONFIG.numBushes; i++) {
+                const x = rnd(0, 95);
+                const y = rnd(10, 95);
+                const size = rnd(40, 80);
+                CONFIG.board.appendChild(createNode(Graphics.getBush(), x, y, size, 'bush'));
+            }
+            for (let i = 0; i < CONFIG.numRocks; i++) {
+                const x = rnd(0, 95);
+                const y = rnd(10, 95);
+                const size = rnd(30, 60);
+                CONFIG.board.appendChild(createNode(Graphics.getRock(), x, y, size, 'rock'));
+            }
+
+            // 3. The Crowd (Decoys)
+            for (let i = 0; i < CONFIG.numDecoys; i++) {
+                const x = rnd(2, 98);
+                const y = rnd(5, 95); // Full spread vertical
+                // Perspective Scaling: Objects higher up (lower Y) are smaller
+                const scale = 35 + (y * 0.4); 
+                
+                const decoy = createNode(Graphics.getDecoy(), x, y, scale, 'person');
+                // Randomly flip some horizontally for variety
+                if (Math.random() > 0.5) decoy.style.transform = "scaleX(-1)";
+                
+                CONFIG.board.appendChild(decoy);
+            }
+
+            // 4. Waldo (The Target)
+            // Ensure he isn't instantly obscured by the UI header (top 10%) or cut off
+            const wX = rnd(10, 90);
+            const wY = rnd(15, 90);
+            const wScale = 35 + (wY * 0.4);
+            
+            const waldo = createNode(Graphics.getWaldo(), wX, wY, wScale, 'person');
+            waldo.onclick = winGame;
+            
+            // Randomly flip Waldo too
+            if (Math.random() > 0.5) waldo.style.transform = "scaleX(-1)";
+
+            CONFIG.board.appendChild(waldo);
+        }
+
+        // Start Game
+        window.onload = initGame;
+
+    </script>
+</body>
+</html>

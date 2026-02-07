@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Inner Light | The Spirit of Reform</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=UnifrakturMaguntia&family=IM+Fell+English+SC&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --paper-base: #e8dfcc;
+    --paper-grain: #dfd4bb;
+    --ink: #2b2b2b;
+    --ink-muted: rgba(43,43,43,0.7);
+}
+
+body {
+    background-color: var(--paper-base);
+    background-image: 
+        linear-gradient(rgba(232, 223, 204, 0.4), rgba(223, 212, 187, 0.4)),
+        url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    color: var(--ink);
+    font-family: 'Libre Baskerville', serif;
+    line-height: 1.45;
+    padding-bottom: 50px;
+    padding-top: 60px; /* Offset for sticky navbar */
+}
+
+/* Sticky Navbar Styles */
+.sticky-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--paper-base);
+    border-bottom: 3px double var(--ink);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-links {
+    font-family: 'IM Fell English SC', serif;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: bold;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+/* Deckled edge / Paper texture container */
+.paper-container {
+    box-shadow: 0 0 20px rgba(0,0,0,0.1), inset 0 0 100px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.newspaper-header {
+    border-bottom: 3px double var(--ink);
+    border-top: 3px double var(--ink);
+    padding: 15px 0;
+    margin-bottom: 25px;
+}
+
+.title-main {
+    font-family: 'IM Fell English SC', serif;
+    letter-spacing: -2px;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    filter: contrast(1.2);
+}
+
+.column-divider {
+    border-right: 1px solid rgba(43,43,43,0.15);
+}
+
+.drop-cap::first-letter {
+    float: left;
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 5rem;
+    line-height: 0.7;
+    padding-top: 10px;
+    padding-right: 12px;
+    color: #000;
+}
+
+.woodblock-btn {
+    border: 2px solid var(--ink);
+    padding: 8px 15px;
+    font-family: 'IM Fell English SC', serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-block;
+    background: transparent;
+    box-shadow: 2px 2px 0px var(--ink);
+}
+
+.woodblock-btn:hover {
+    background: var(--ink);
+    color: var(--paper-base);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--ink);
+}
+
+.section-rule {
+    border-top: 1px solid var(--ink);
+    margin: 15px 0;
+    opacity: 0.3;
+}
+
+h2, h3, h4 {
+    font-family: 'IM Fell English SC', serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ads-box {
+    background-color: rgba(0,0,0,0.04);
+    border: 1px dashed var(--ink);
+    position: relative;
+}
+
+/* Ornate Woodblock Divider */
+.ornament {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    color: var(--ink);
+    opacity: 0.6;
+}
+
+.sidebar {
+    color: var(--ink);
+    font-size: 0.8rem;
+}
+
+.main-article {
+    padding: 0 1.5rem;
+}
+
+.pull-quote {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.25rem;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 15px 0;
+    margin: 25px 0;
+    text-align: center;
+    font-style: italic;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.8s ease;
+}
+
+.pull-quote.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.legal-notice {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border: 2px solid var(--ink);
+    padding: 8px;
+    margin: 12px 0;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+.highlight-box {
+    border: 1px solid var(--ink);
+    padding: 12px;
+    margin: 20px 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.paper-container:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>'), auto;
+}
+
+.continued {
+    display: none;
+}
+
+.continue-link {
+    cursor: pointer;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.book-listing {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted var(--ink);
+}
+
+.book-image-container {
+    width: 100%;
+    margin-top: 8px;
+    border: 1px solid var(--ink);
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.05);
+}
+
+.book-image {
+    width: 100%;
+    aspect-ratio: 2/3;
+    filter: sepia(0.6) contrast(1.2) grayscale(0.2);
+    object-fit: cover;
+    display: block;
+}
+
+/* Home Link Styling */
+.home-link-container {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+</style>
+</head>
+
+<body class="p-2 md:p-8">
+
+<!-- STICKY NAVBAR -->
+<nav class="sticky-navbar">
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="transcendentalism.html">Transcendental</a>
+        <a href="utopianism.html">Utopianism</a>
+        <a href="womens.html">Women's Rights</a>
+        <a href="slavery.html">Anti-Slavery</a>
+        <a href="temperance.html">Temperance</a>
+        <a href="extras.html">Extras</a>
+        <a href="shop.html">Shop</a>
+    </div>
+</nav>
+
+<div class="max-w-6xl mx-auto border-4 border-double border-black p-6 bg-opacity-50 paper-container">
+
+<!-- TOP METADATA -->
+<div class="flex justify-between text-xs font-bold border-b-2 border-black mb-2 pb-1">
+    <span>New England Intelligence</span>
+    <span class="uppercase tracking-[0.3em]">Harrison Adamec</span>
+    <span>Concord, Mass. — Price: Two Cents</span>
+</div>
+
+<!-- MASTHEAD -->
+<header class="text-center mb-8">
+    <h1 id="masthead" class="title-main text-6xl md:text-9xl mb-2">The Inner Light</h1>
+    <div class="newspaper-header flex flex-col md:flex-row justify-between items-center px-6 uppercase text-xs font-bold">
+        <div class="hidden md:block">Volume 1</div>
+        <div id="rotatingQuote" class="text-2xl font-serif py-2 tracking-tight"></div>
+        <div id="dynamicDate"></div>
+    </div>
+</header>
+
+<!-- MAIN GRID -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+<!-- LEFT COLUMN: CORE BELIEFS -->
+<div class="md:col-span-1 column-divider pr-6 sidebar">
+<section class="mb-8">
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">The Doctrine</h2>
+    <p class="mb-4 text-xs leading-relaxed">Truth is found not in books or cathedrals, but through the <strong>intuition</strong> of the soul.</p>
+    
+    <div class="legal-notice uppercase text-[10px]">Inner Conscience</div>
+    <p class="text-[11px] mb-3 italic">Trust the spirit over the law or the church.</p>
+
+    <div class="legal-notice uppercase text-[10px]">Sacred Nature</div>
+    <p class="text-[11px] mb-3 italic">The universe is a mirror; nature is our greatest teacher.</p>
+
+    <div class="legal-notice uppercase text-[10px]">Innate Goodness</div>
+    <p class="text-[11px] mb-3 italic">Humans are born pure; society and conformity corrupt.</p>
+</section>
+
+<div class="ornament">❧ ❦ ❧</div>
+
+<section class="mb-8">
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">Opposition</h2>
+    <p class="text-xs uppercase mb-2 font-bold">We Stand Against:</p>
+    <ul class="text-xs space-y-2 list-none">
+        <li class="pl-4 relative before:content-['❖'] before:absolute before:left-0 italic">Materialism</li>
+        <li class="pl-4 relative before:content-['❖'] before:absolute before:left-0 italic">Blind Conformity</li>
+        <li class="pl-4 relative before:content-['❖'] before:absolute before:left-0 italic">Unjust Laws</li>
+    </ul>
+</section>
+
+<div class="ads-box p-4 mt-6">
+    <h4 class="text-xs font-bold text-center underline mb-2 uppercase">ADVERTISEMENT</h4>
+    <p class="text-[10px] italic leading-tight text-center">
+        Solitude for Rent: A small cabin near Walden Pond. Perfect for reflection and avoiding the tax-man.
+    </p>
+</div>
+</div>
+
+<!-- CENTER COLUMN: MAIN FEATURE -->
+<div class="md:col-span-2 column-divider main-article">
+<article class="article">
+    <h2 class="text-4xl md:text-5xl text-center mb-6 leading-none uppercase">
+        The Sovereignty of Self:<br>
+        <span class="italic text-2xl mt-2 block normal-case font-serif">The Awakening in New England</span>
+    </h2>
+
+    <p class="drop-cap text-base mb-6 text-justify leading-relaxed">
+        Transcendentalism, born in the 1830s amid the intellectual heart of New England, teaches that truth and spiritual awakening are obtained through intuition and self-trust. It is a bold rejection of the "cold" intellectualism of Unitarianism, favoring instead a direct, vibrant spiritual experience that refuses to allow society to suppress the human spirit.
+    </p>
+
+    <div class="pull-quote" id="pullQuote">
+        “Whoso would be a man must be a nonconformist.” — Ralph Waldo Emerson
+    </div>
+
+    <p class="text-sm md:text-base mb-6 text-justify leading-relaxed">
+        Inspired by European Romanticism, this movement seeks to awaken the "Over-soul"—that spiritual essence connecting all living beings. From the meetings of the <strong>Transcendental Club</strong> in 1836 to the radical simplicity of life in the woods, these thinkers are reshaping the American character.
+    </p>
+
+    <div class="highlight-box border-2">
+        <h4 class="text-sm font-bold text-center border-b border-black mb-2 pb-1">The Dial's Mission</h4>
+        <p class="text-xs text-center italic">
+            To provide a quarterly journal for literature, philosophy, and religion, reflecting the brightest minds of our age.
+        </p>
+    </div>
+
+    <div class="text-center mt-6">
+        <span id="continueToggle" class="continue-link text-sm font-bold uppercase tracking-widest cursor-pointer">
+            Read of the Leaders and the Printed Word
+        </span>
+    </div>
+
+    <div id="continuedText" class="continued mt-8">
+        <h3 class="text-xl font-bold border-b-2 border-black pb-1 mb-4">The Vanguard of Thought</h3>
+        <p class="text-sm mb-4 leading-relaxed text-justify">
+            <strong>Ralph Waldo Emerson</strong> stands as the movement's architect, defining the principles of self-reliance. Beside him, <strong>Henry David Thoreau</strong> acts as the living example, choosing the simplicity of Walden Pond and the bravery of "Civil Disobedience" against unjust laws. <strong>Margaret Fuller</strong>, a formidable voice, has expanded these truths to champion the rights and education of women.
+        </p>
+
+        <h3 class="text-xl font-bold border-b-2 border-black pb-1 mb-4">The Lasting Impact</h3>
+        <p class="text-sm mb-6 text-justify leading-relaxed">
+            This movement does not end with the individual. It has sparked a fire for environmental conservation and expanded into nearly every major reform movement of our age, from abolition to women's suffrage.
+        </p>
+    </div>
+</article>
+</div>
+
+<!-- RIGHT COLUMN: WRITINGS & DIAL -->
+<div class="md:col-span-1 pl-6 sidebar">
+<section class="mb-8">
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">The Library</h2>
+    
+    <div class="book-listing">
+        <strong class="text-xs uppercase">"Nature"</strong>
+        <p class="text-[10px] mt-1 italic">Emerson defines the sacred connection between man and the universe.</p>
+        <div class="book-image-container">
+            <img src="natureRWE.jpeg" alt="Nature Cover" class="book-image">
+        </div>
+    </div>
+
+    <div class="book-listing">
+        <strong class="text-xs uppercase">"Walden"</strong>
+        <p class="text-[10px] mt-1 italic">Thoreau’s account of reflection and simplicity in the wild.</p>
+        <div class="book-image-container">
+            <img src="walden.jpeg" alt="Walden Cover" class="book-image">
+        </div>
+    </div>
+
+    <div class="book-listing">
+        <strong class="text-xs uppercase">"The Dial"</strong>
+        <p class="text-[10px] mt-1 italic">The quarterly journal; the authentic voice of the Transcendental Club.</p>
+        <div class="book-image-container">
+            <img src="dial.jpeg" alt="The Dial Cover" class="book-image">
+        </div>
+    </div>
+
+    <div class="book-listing">
+        <strong class="text-xs uppercase">"Women in the 19th Century"</strong>
+        <p class="text-[10px] mt-1 italic">Fuller’s groundbreaking expansion of the movement's thought.</p>
+        <div class="book-image-container">
+            <img src="woman.jpeg" alt="Women in the 19th Century Cover" class="book-image">
+        </div>
+    </div>
+</section>
+
+<div class="ornament">❧ ❦ ❧</div>
+
+<section class="mb-8">
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">The Dial</h2>
+    <p class="text-xs italic mb-2">"A Magazine for Literature, Philosophy, and Religion."</p>
+    <p class="text-[10px] leading-relaxed">Edited first by Margaret Fuller, then by Mr. Emerson. Featuring the contributions of Mr. Thoreau and other Harvard alumni.</p>
+</section>
+
+<div class="ads-box p-4 border-double border-4 border-black">
+    <h4 class="text-xs font-bold text-center mb-2 uppercase underline">Bookseller</h4>
+    <p class="text-[10px] leading-relaxed text-center">
+        <em>Self-Reliance</em> (Essays) - 50¢<br>
+        <em>Civil Disobedience</em> - 12¢<br>
+        Ink and Quills - 5¢
+    </p>
+</div>
+</div>
+
+</div>
+
+<!-- HOME NAVIGATION -->
+<div class="home-link-container">
+    <a href="index.html" class="woodblock-btn text-sm">
+        ← Return to Main Edition
+    </a>
+</div>
+
+<!-- FOOTER / SOURCES -->
+<footer class="mt-8 pt-6 border-t-4 border-double border-black">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-[9px] uppercase tracking-widest font-bold">
+        <div>
+            <strong>Primary Archives:</strong><br>
+            <span class="opacity-70">Emerson's The Transcendentalist; Thoreau's Civil Disobedience.</span>
+        </div>
+        <div class="text-right">
+            <strong>Historical Sources:</strong><br>
+            <span class="opacity-70">History.com; Gilder Lehrman Institute; Encyclopedia Britannica.</span>
+        </div>
+    </div>
+    <p class="text-center mt-6 text-[10px] italic opacity-80">
+        "Trust thyself: every heart vibrates to that iron string." Printed on the electric ether.
+    </p>
+</footer>
+
+</div>
+
+<script>
+/* Typing Animation */
+const titleEl = document.getElementById("masthead");
+const fullText = "The Inner Light";
+titleEl.textContent = "";
+let i = 0;
+const typeInterval = setInterval(() => {
+    titleEl.textContent += fullText[i];
+    i++;
+    if (i >= fullText.length) clearInterval(typeInterval);
+}, 150);
+
+/* Fake Date */
+const dateEl = document.getElementById("dynamicDate");
+const fakeDate = new Date();
+fakeDate.setFullYear(1836); 
+dateEl.textContent = fakeDate.toDateString();
+
+/* Rotating Quote */
+const quotes = [
+    "“To be great is to be misunderstood.”",
+    "“Go confidently in the direction of your dreams.”",
+    "“The sun shines into the heart of the child.”",
+];
+document.getElementById("rotatingQuote").textContent =
+quotes[Math.floor(Math.random() * quotes.length)];
+
+/* Continued Section Toggle */
+document.getElementById("continueToggle").onclick = () => {
+    document.getElementById("continuedText").style.display = "block";
+    document.getElementById("continueToggle").style.display = "none";
+};
+
+/* Pull Quote Reveal */
+const pq = document.getElementById("pullQuote");
+window.addEventListener("scroll", () => {
+    if (pq.getBoundingClientRect().top < window.innerHeight - 50) {
+        pq.classList.add("visible");
+    }
+});
+</script>
+
+</body>
+</html>

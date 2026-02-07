@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Reform Emporium | The Spirit of Reform</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=UnifrakturMaguntia&family=IM+Fell+English+SC&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --paper-base: #e8dfcc;
+    --paper-grain: #dfd4bb;
+    --ink: #2b2b2b;
+    --ink-muted: rgba(43,43,43,0.7);
+    --accent: #7a3a3a;
+}
+
+body {
+    background-color: var(--paper-base);
+    background-image: 
+        linear-gradient(rgba(232, 223, 204, 0.4), rgba(223, 212, 187, 0.4)),
+        url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    color: var(--ink);
+    font-family: 'Libre Baskerville', serif;
+    line-height: 1.45;
+    padding-bottom: 50px;
+    padding-top: 60px;
+}
+
+/* Sticky Navbar */
+.sticky-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--paper-base);
+    border-bottom: 3px double var(--ink);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-links {
+    font-family: 'IM Fell English SC', serif;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: bold;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+.paper-container {
+    box-shadow: 0 0 20px rgba(0,0,0,0.1), inset 0 0 100px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.paper-container:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>'), auto;
+}
+
+.newspaper-header {
+    border-bottom: 3px double var(--ink);
+    border-top: 3px double var(--ink);
+    padding: 15px 0;
+    margin-bottom: 25px;
+}
+
+.title-main {
+    font-family: 'IM Fell English SC', serif;
+    letter-spacing: -2px;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    filter: contrast(1.2);
+}
+
+.woodblock-btn {
+    border: 2px solid var(--ink);
+    padding: 8px 15px;
+    font-family: 'IM Fell English SC', serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-block;
+    background: transparent;
+    box-shadow: 2px 2px 0px var(--ink);
+    cursor: pointer;
+}
+
+.woodblock-btn:hover {
+    background: var(--ink);
+    color: var(--paper-base);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--ink);
+}
+
+.product-card {
+    border: 2px solid var(--ink);
+    padding: 15px;
+    background: rgba(255,255,255,0.2);
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    filter: sepia(0.5) contrast(1.1) grayscale(0.2);
+    border: 1px solid var(--ink);
+    margin-bottom: 10px;
+}
+
+.price-tag {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.cart-badge {
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.cart-sidebar {
+    position: fixed;
+    right: -400px;
+    top: 60px;
+    width: 400px;
+    height: calc(100vh - 60px);
+    background: var(--paper-base);
+    border-left: 4px double var(--ink);
+    box-shadow: -4px 0 20px rgba(0,0,0,0.2);
+    transition: right 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.cart-sidebar.open {
+    right: 0;
+}
+
+.cart-toggle {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    background: var(--accent);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.cart-toggle:hover {
+    transform: scale(1.1);
+}
+
+.cart-item {
+    border-bottom: 1px dashed var(--ink);
+    padding: 15px 0;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.cart-item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border: 1px solid var(--ink);
+    filter: sepia(0.5);
+}
+
+.ornament {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 1.5rem 0;
+    color: var(--ink);
+    opacity: 0.6;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 40px 20px;
+    font-style: italic;
+    opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+    .cart-sidebar {
+        width: 100%;
+        right: -100%;
+    }
+}
+</style>
+</head>
+
+<body class="p-2 md:p-8">
+
+<!-- STICKY NAVBAR -->
+<nav class="sticky-navbar">
+    <div class="nav-links">
+        <a href="homepageReform.html">Home</a>
+        <a href="transcendentalism.html">Transcendental</a>
+        <a href="utopianism.html">Utopianism</a>
+        <a href="womens.html">Women's Rights</a>
+        <a href="slavery.html">Anti-Slavery</a>
+        <a href="temperance.html">Temperance</a>
+        <a href="extras.html">Extras</a>
+        <a href="shop.html">Shop</a>
+    </div>
+</nav>
+
+<!-- CART TOGGLE BUTTON -->
+<div class="cart-toggle" onclick="toggleCart()">
+    🛒 Cart <span class="cart-badge" id="cartCount">0</span>
+</div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="flex justify-between items-center mb-4 border-b-2 border-black pb-2">
+        <h2 class="text-2xl font-bold" style="font-family: 'IM Fell English SC', serif;">Your Cart</h2>
+        <button onclick="toggleCart()" class="text-2xl cursor-pointer">×</button>
+    </div>
+    
+    <div id="cartItems"></div>
+    
+    <div class="mt-6 pt-4 border-t-2 border-black">
+        <div class="flex justify-between text-xl font-bold mb-4">
+            <span>Total:</span>
+            <span class="price-tag" id="cartTotal">$0.00</span>
+        </div>
+        <button onclick="checkout()" class="woodblock-btn w-full text-center">Proceed to Checkout</button>
+        <button onclick="clearCart()" class="woodblock-btn w-full text-center mt-2" style="background: #7a3a3a; color: white;">Clear Cart</button>
+    </div>
+</div>
+
+<div class="max-w-6xl mx-auto border-4 border-double border-black p-6 bg-opacity-50 paper-container relative">
+
+<!-- TOP METADATA -->
+<div class="flex justify-between text-xs font-bold border-b-2 border-black mb-2 pb-1">
+    <span>Established 1826</span>
+    <span class="uppercase tracking-[0.3em]">The Reform Emporium</span>
+    <span>Quality Goods — Fair Prices</span>
+</div>
+
+<!-- MASTHEAD -->
+<header class="text-center mb-8">
+    <h1 id="masthead" class="title-main text-6xl md:text-9xl mb-2">The Shop</h1>
+    <div class="newspaper-header flex flex-col md:flex-row justify-between items-center px-6 uppercase text-xs font-bold">
+        <div class="hidden md:block">Catalogue No. I</div>
+        <div id="rotatingQuote" class="text-2xl font-serif py-2 tracking-tight"></div>
+        <div id="dynamicDate"></div>
+    </div>
+</header>
+
+<!-- SHOP INTRO -->
+<div class="text-center mb-8 max-w-3xl mx-auto">
+    <p class="text-sm italic leading-relaxed">
+        Welcome to the Reform Emporium, where every purchase supports the great movements of our age. 
+        All proceeds benefit the Temperance Society, the Underground Railroad, and the Women's Rights Movement.
+    </p>
+</div>
+
+<div class="ornament">❧ ❦ ❧</div>
+
+<!-- PRODUCTS GRID -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+    <!-- Product 1 -->
+    <div class="product-card">
+        <img src="temperanceBook.png" alt="Temperance Pledge Book" class="product-image">
+        <h3 class="text-lg font-bold mb-2" style="font-family: 'IM Fell English SC', serif;">TEMPERANCE PLEDGE BOOK</h3>
+        <p class="text-xs mb-3 italic">A handsome leather-bound journal for recording your sobriety pledge. Embossed with the Cold Water Army seal.</p>
+        <div class="flex justify-between items-center">
+            <span class="price-tag">$2.50</span>
+            <button onclick="addToCart(1)" class="woodblock-btn text-xs px-4 py-2">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card">
+        <img src="garrisonPamphlet.png" alt="Abolition Pamphlets" class="product-image">
+        <h3 class="text-lg font-bold mb-2" style="font-family: 'IM Fell English SC', serif;">GARRISON PAMPHLET SET</h3>
+        <p class="text-xs mb-3 italic">Collection of 12 authentic abolition pamphlets. Includes "The Liberator" excerpts and anti-slavery speeches.</p>
+        <div class="flex justify-between items-center">
+            <span class="price-tag">$3.75</span>
+            <button onclick="addToCart(2)" class="woodblock-btn text-xs px-4 py-2">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card">
+        <img src="truthTote.png" alt="Sojourner Truth Tote" class="product-image">
+        <h3 class="text-lg font-bold mb-2" style="font-family: 'IM Fell English SC', serif;">SOJOURNER TRUTH TOTE</h3>
+        <p class="text-xs mb-3 italic">Heavy canvas bag featuring the famous quote: "Ain't I a Woman?" Perfect for market trips.</p>
+        <div class="flex justify-between items-center">
+            <span class="price-tag">$4.00</span>
+            <button onclick="addToCart(3)" class="woodblock-btn text-xs px-4 py-2">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="product-card">
+        <img src="poster.png" alt="Seneca Falls Poster" class="product-image">
+        <h3 class="text-lg font-bold mb-2" style="font-family: 'IM Fell English SC', serif;">SENECA FALLS POSTER</h3>
+        <p class="text-xs mb-3 italic">Commemorative print of the Declaration of Sentiments. Suitable for framing. 18" × 24".</p>
+        <div class="flex justify-between items-center">
+            <span class="price-tag">$1.50</span>
+            <button onclick="addToCart(4)" class="woodblock-btn text-xs px-4 py-2">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Product 5 -->
+    <div class="product-card">
+        <img src="stickers.png" alt="Reform Stickers" class="product-image">
+        <h3 class="text-lg font-bold mb-2" style="font-family: 'IM Fell English SC', serif;">REFORM STICKER PACK</h3>
+        <p class="text-xs mb-3 italic">Set of 20 decorative stickers featuring reform leaders: Douglass, Tubman, Stanton, and Anthony.</p>
+        <div class="flex justify-between items-center">
+            <span class="price-tag">$0.50</span>
+            <button onclick="addToCart(5)" class="woodblock-btn text-xs px-4 py-2">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Product 6 -->
+    <div class="product-card">
+        <img src="bloomerDress.png" alt="Bloomer Costume Pattern" class="product-image">
+        <h3 class="text-lg font-bold mb-2" style="font-family: 'IM Fell English SC', serif;">BLOOMER PATTERN</h3>
+        <p class="text-xs mb-3 italic">Authentic dress reform pattern as worn by Amelia Bloomer. Includes detailed sewing instructions.</p>
+        <div class="flex justify-between items-center">
+            <span class="price-tag">$1.25</span>
+            <button onclick="addToCart(6)" class="woodblock-btn text-xs px-4 py-2">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Product 7 -->
+    <div class="product-card">
+        <img src="water.png" alt="Cold Water Pitcher" class="product-image">
+        <h3 class="text-lg font-bold mb-2" style="font-family: 'IM Fell English SC', serif;">COLD WATER PITCHER</h3>
+        <p class="text-xs mb-3 italic">Ceramic pitcher emblazoned with temperance motto. The only beverage a righteous soul needs.</p>
+        <div class="flex justify-between items-center">
+            <span class="price-tag">$3.25</span>
+            <button onclick="addToCart(7)" class="woodblock-btn text-xs px-4 py-2">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Product 8 -->
+    <div class="product-card">
+        <img src="journal.png" alt="Thoreau's Journal" class="product-image">
+        <h3 class="text-lg font-bold mb-2" style="font-family: 'IM Fell English SC', serif;">TRANSCENDENTAL JOURNAL</h3>
+        <p class="text-xs mb-3 italic">Blank journal inspired by Thoreau's writings. Perfect for recording your observations of nature.</p>
+        <div class="flex justify-between items-center">
+            <span class="price-tag">$2.00</span>
+            <button onclick="addToCart(8)" class="woodblock-btn text-xs px-4 py-2">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Product 9 -->
+    <div class="product-card">
+        <img src="map.png" alt="Underground Railroad Map" class="product-image">
+        <h3 class="text-lg font-bold mb-2" style="font-family: 'IM Fell English SC', serif;">NORTH STAR MAP</h3>
+        <p class="text-xs mb-3 italic">Reproduction of historic Underground Railroad routes. Educational and historically significant.</p>
+        <div class="flex justify-between items-center">
+            <span class="price-tag">$2.75</span>
+            <button onclick="addToCart(9)" class="woodblock-btn text-xs px-4 py-2">Add to Cart</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="mt-12 pt-6 border-t-4 border-double border-black text-center">
+    <div class="flex flex-col items-center mb-8">
+        <a href="homepageReform.html" class="woodblock-btn text-sm px-10">
+            ← Return to the Home of Reform
+        </a>
+    </div>
+
+    <div class="flex justify-between text-[9px] uppercase font-bold tracking-widest">
+        <div>All Proceeds Support Reform Movements</div>
+        <div class="text-right">Shipping Available to All States</div>
+    </div>
+    <p class="text-[10px] italic mt-4 opacity-70">"Purchase with Purpose — Every Item Advances the Cause"</p>
+</footer>
+
+</div>
+
+<script>
+// Product data
+const products = {
+    1: { name: "Temperance Pledge Book", price: 2.50, image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" },
+    2: { name: "Garrison Pamphlet Set", price: 3.75, image: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=400" },
+    3: { name: "Sojourner Truth Tote", price: 4.00, image: "https://images.unsplash.com/photo-1591085686350-798c0f9faa7f?w=400" },
+    4: { name: "Seneca Falls Poster", price: 1.50, image: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400" },
+    5: { name: "Reform Sticker Pack", price: 0.50, image: "https://images.unsplash.com/photo-1615799998603-7c6270a45196?w=400" },
+    6: { name: "Bloomer Pattern", price: 1.25, image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400" },
+    7: { name: "Cold Water Pitcher", price: 3.25, image: "https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?w=400" },
+    8: { name: "Transcendental Journal", price: 2.00, image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400" },
+    9: { name: "North Star Map", price: 2.75, image: "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?w=400" }
+};
+
+// Load cart from localStorage
+function loadCart() {
+    const savedCart = localStorage.getItem('reformCart');
+    return savedCart ? JSON.parse(savedCart) : {};
+}
+
+// Save cart to localStorage
+function saveCart(cart) {
+    localStorage.setItem('reformCart', JSON.stringify(cart));
+}
+
+// Add to cart
+function addToCart(productId) {
+    let cart = loadCart();
+    
+    if (cart[productId]) {
+        cart[productId].quantity += 1;
+    } else {
+        cart[productId] = {
+            ...products[productId],
+            quantity: 1
+        };
+    }
+    
+    saveCart(cart);
+    updateCartDisplay();
+    
+    // Visual feedback
+    showNotification(`${products[productId].name} added to cart!`);
+}
+
+// Remove from cart
+function removeFromCart(productId) {
+    let cart = loadCart();
+    delete cart[productId];
+    saveCart(cart);
+    updateCartDisplay();
+}
+
+// Update quantity
+function updateQuantity(productId, change) {
+    let cart = loadCart();
+    if (cart[productId]) {
+        cart[productId].quantity += change;
+        if (cart[productId].quantity <= 0) {
+            delete cart[productId];
+        }
+        saveCart(cart);
+        updateCartDisplay();
+    }
+}
+
+// Update cart display
+function updateCartDisplay() {
+    const cart = loadCart();
+    const cartItemsDiv = document.getElementById('cartItems');
+    const cartCount = document.getElementById('cartCount');
+    const cartTotal = document.getElementById('cartTotal');
+    
+    let totalItems = 0;
+    let totalPrice = 0;
+    let html = '';
+    
+    const cartKeys = Object.keys(cart);
+    
+    if (cartKeys.length === 0) {
+        html = '<div class="empty-cart"><p>Your cart is empty</p><p class="text-xs mt-2">Start shopping to add items!</p></div>';
+    } else {
+        cartKeys.forEach(productId => {
+            const item = cart[productId];
+            totalItems += item.quantity;
+            totalPrice += item.price * item.quantity;
+            
+            html += `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm">${item.name}</h4>
+                        <p class="text-xs">$${item.price.toFixed(2)} each</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="updateQuantity(${productId}, -1)" class="text-lg font-bold px-2 border border-black">−</button>
+                            <span class="text-sm font-bold">${item.quantity}</span>
+                            <button onclick="updateQuantity(${productId}, 1)" class="text-lg font-bold px-2 border border-black">+</button>
+                            <button onclick="removeFromCart(${productId})" class="text-xs ml-auto text-red-800 underline">Remove</button>
+                        </div>
+                    </div>
+                    <div class="font-bold">
+                        $${(item.price * item.quantity).toFixed(2)}
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    cartItemsDiv.innerHTML = html;
+    cartCount.textContent = totalItems;
+    cartTotal.textContent = `$${totalPrice.toFixed(2)}`;
+}
+
+// Toggle cart sidebar
+function toggleCart() {
+    const sidebar = document.getElementById('cartSidebar');
+    sidebar.classList.toggle('open');
+}
+
+// Clear cart
+function clearCart() {
+    if (confirm('Are you sure you want to clear your cart?')) {
+        localStorage.removeItem('reformCart');
+        updateCartDisplay();
+        showNotification('Cart cleared!');
+    }
+}
+
+// Checkout
+function checkout() {
+    const cart = loadCart();
+    if (Object.keys(cart).length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+    
+    alert('Thank you for your order! Your support advances the cause of Reform. A confirmation will arrive via telegraph shortly.');
+    localStorage.removeItem('reformCart');
+    updateCartDisplay();
+    toggleCart();
+}
+
+// Show notification
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: #2b2b2b;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 5px;
+        z-index: 10000;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 2000);
+}
+
+/* Typing Animation */
+const titleEl = document.getElementById("masthead");
+const fullText = "The Shop";
+titleEl.textContent = "";
+let i = 0;
+const typeInterval = setInterval(() => {
+    titleEl.textContent += fullText[i];
+    i++;
+    if (i >= fullText.length) clearInterval(typeInterval);
+}, 150);
+
+/* Date Setup */
+const dateEl = document.getElementById("dynamicDate");
+const fakeDate = new Date();
+fakeDate.setFullYear(1826);
+dateEl.textContent = fakeDate.toDateString();
+
+/* Rotating Quote */
+const quotes = [
+    "Commerce for the Common Good",
+    "Purchase with Purpose",
+    "Every Sale Supports Reform",
+];
+document.getElementById("rotatingQuote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+// Initialize cart on page load
+updateCartDisplay();
+
+// Close cart when clicking outside
+document.addEventListener('click', (e) => {
+    const sidebar = document.getElementById('cartSidebar');
+    const cartToggle = document.querySelector('.cart-toggle');
+    if (sidebar.classList.contains('open') && 
+        !sidebar.contains(e.target) && 
+        !cartToggle.contains(e.target)) {
+        toggleCart();
+    }
+});
+</script>
+
+</body>
+</html>

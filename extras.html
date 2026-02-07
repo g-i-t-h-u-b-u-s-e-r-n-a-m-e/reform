@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Moving Picture Gallery | The Spirit of Reform</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=UnifrakturMaguntia&family=IM+Fell+English+SC&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --paper-base: #e8dfcc;
+    --paper-grain: #dfd4bb;
+    --ink: #2b2b2b;
+    --ink-muted: rgba(43,43,43,0.7);
+    --accent: #5a4a3a;
+}
+
+body {
+    background-color: var(--paper-base);
+    background-image: 
+        linear-gradient(rgba(232, 223, 204, 0.4), rgba(223, 212, 187, 0.4)),
+        url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    color: var(--ink);
+    font-family: 'Libre Baskerville', serif;
+    line-height: 1.45;
+    padding-bottom: 50px;
+    padding-top: 60px;
+}
+
+/* Sticky Navbar */
+.sticky-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--paper-base);
+    border-bottom: 3px double var(--ink);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-links {
+    font-family: 'IM Fell English SC', serif;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: bold;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+.paper-container {
+    box-shadow: 0 0 20px rgba(0,0,0,0.1), inset 0 0 100px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.paper-container:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>'), auto;
+}
+
+.newspaper-header {
+    border-bottom: 3px double var(--ink);
+    border-top: 3px double var(--ink);
+    padding: 15px 0;
+    margin-bottom: 25px;
+}
+
+.title-main {
+    font-family: 'IM Fell English SC', serif;
+    letter-spacing: -2px;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    filter: contrast(1.2);
+}
+
+.column-divider {
+    border-right: 1px solid rgba(43,43,43,0.15);
+}
+
+.woodblock-btn {
+    border: 2px solid var(--ink);
+    padding: 8px 15px;
+    font-family: 'IM Fell English SC', serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-block;
+    background: transparent;
+    box-shadow: 2px 2px 0px var(--ink);
+    cursor: pointer;
+}
+
+.woodblock-btn:hover {
+    background: var(--ink);
+    color: var(--paper-base);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--ink);
+}
+
+.sidebar-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.2rem;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 12px;
+    display: block;
+    text-transform: uppercase;
+}
+
+.ornament {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 1.5rem 0;
+    color: var(--ink);
+    opacity: 0.6;
+}
+
+.video-frame {
+    border: 8px solid var(--ink);
+    padding: 8px;
+    background: #1a1a1a;
+    box-shadow: 
+        inset 0 0 20px rgba(0,0,0,0.8),
+        0 4px 8px rgba(0,0,0,0.3);
+    margin-bottom: 15px;
+}
+
+.video-frame video {
+    width: 100%;
+    display: block;
+    filter: sepia(0.3) contrast(1.1);
+}
+
+.caption {
+    font-size: 0.75rem;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.highlight-box {
+    border: 1px solid var(--ink);
+    padding: 12px;
+    margin: 20px 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.playbill {
+    border: 2px solid var(--ink);
+    padding: 15px;
+    background: rgba(255,255,255,0.2);
+    text-align: center;
+}
+
+.drop-cap::first-letter {
+    float: left;
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 5rem;
+    line-height: 0.7;
+    padding-top: 10px;
+    padding-right: 12px;
+    color: var(--accent);
+}
+</style>
+</head>
+
+<body class="p-2 md:p-8">
+
+<!-- STICKY NAVBAR -->
+<nav class="sticky-navbar">
+    <div class="nav-links">
+        <a href="homepageReform.html">Home</a>
+        <a href="transcendentalism.html">Transcendental</a>
+        <a href="utopianism.html">Utopianism</a>
+        <a href="womens.html">Women's Rights</a>
+        <a href="slavery.html">Anti-Slavery</a>
+        <a href="temperance.html">Temperance</a>
+        <a href="extras.html">Extras</a>
+        <a href="shop.html">Shop</a>
+    </div>
+</nav>
+
+<div class="max-w-6xl mx-auto border-4 border-double border-black p-6 bg-opacity-50 paper-container relative">
+
+<!-- TOP METADATA -->
+<div class="flex justify-between text-xs font-bold border-b-2 border-black mb-2 pb-1">
+    <span>Illustrated Supplement</span>
+    <span class="uppercase tracking-[0.3em]">Moving Picture Gallery</span>
+    <span>Boston, Mass. — Price: Three Cents</span>
+</div>
+
+<!-- MASTHEAD -->
+<header class="text-center mb-8">
+    <h1 id="masthead" class="title-main text-6xl md:text-9xl mb-2">The Extras</h1>
+    <div class="newspaper-header flex flex-col md:flex-row justify-between items-center px-6 uppercase text-xs font-bold">
+        <div class="hidden md:block">Special Edition</div>
+        <div id="rotatingQuote" class="text-2xl font-serif py-2 tracking-tight"></div>
+        <div id="dynamicDate"></div>
+    </div>
+</header>
+
+<!-- MAIN GRID -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+    <!-- LEFT COLUMN -->
+    <div class="md:col-span-1 column-divider pr-6">
+        <section class="mb-8">
+            <span class="sidebar-title">A Modern Marvel</span>
+            <div class="playbill mb-4">
+                <h4 class="text-xs font-bold uppercase mb-2">Presented by</h4>
+                <p class="text-sm font-bold">The Spirit of Reform</p>
+                <p class="text-[10px] italic mt-1">In Cooperation with<br>The Reform Press</p>
+            </div>
+            <p class="text-[11px] leading-relaxed mb-3">
+                Witness the wonders of the modern age! Moving pictures that capture the perils of intemperance with vivid clarity.
+            </p>
+        </section>
+
+        <div class="ornament">❧ ❦ ❧</div>
+
+        <section class="mb-8">
+            <span class="sidebar-title">Technical Notes</span>
+            <ul class="text-[10px] space-y-2 list-none">
+                <li class="pl-3 relative before:content-['❖'] before:absolute before:left-0">
+                    <strong>Format:</strong> Video
+                </li>
+                <li class="pl-3 relative before:content-['❖'] before:absolute before:left-0">
+                    <strong>Runtime:</strong> 50 seconds
+                </li>
+                <li class="pl-3 relative before:content-['❖'] before:absolute before:left-0">
+                    <strong>Subject:</strong> Moral Instruction, Public Service Announcement, Comedy
+                </li>
+                <li class="pl-3 relative before:content-['❖'] before:absolute before:left-0">
+                    <strong>Audience:</strong> All Ages
+                </li>
+            </ul>
+        </section>
+
+        <div class="highlight-box border-double border-2 mt-6">
+            <h4 class="text-[10px] font-bold text-center uppercase tracking-widest mb-2">Notice</h4>
+            <p class="text-[9px] italic text-center leading-relaxed">
+                This moving picture exhibition is provided for educational purposes. Parental guidance suggested for younger viewers.
+            </p>
+        </div>
+    </div>
+
+    <!-- CENTER COLUMN -->
+    <div class="md:col-span-2 column-divider px-4">
+        <article>
+            <h2 class="text-4xl md:text-5xl text-center mb-6 leading-none uppercase">
+                THE MOVING PICTURE<br>
+                <span class="italic text-2xl mt-2 block normal-case font-serif">Chronicle of the Temperance Cause</span>
+            </h2>
+
+            <div class="video-frame">
+                <video controls>
+                    <source src="Temperance.mp4" type="video/mp4">
+                    Your browser does not support the moving picture display. Please ensure you are using a modern telegraphic viewing device.
+                </video>
+            </div>
+            <p class="caption">
+                A Moving Picture Demonstration: The Consequences of Intemperance, Captured by Modern Photographic Machinery
+            </p>
+
+            <p class="drop-cap text-base mb-6 text-justify leading-relaxed">
+                Through the marvel of modern technology, we bring you this visual testament to the Reform Movement. What once required lengthy orations and printed pamphlets can now be witnessed directly through the miracle of moving photography. This exhibition demonstrates the power of temperance and the perils of its opposite.
+            </p>
+
+            <div class="ornament">❖</div>
+
+            <div class="highlight-box border-2">
+                <h4 class="text-sm font-bold text-center border-b border-black mb-3 pb-1 uppercase">About This Exhibition</h4>
+                <p class="text-xs mb-3 leading-relaxed">
+                    The moving pictures you witness here represent the cutting edge of reform communication. Where once we relied upon the printed word and spoken testimony, we now use the power of visual storytelling to illuminate the path of righteousness.
+                </p>
+                <p class="text-xs italic text-center">
+                    "A picture is worth a thousand pamphlets, and a moving picture, ten thousand sermons."
+                </p>
+            </div>
+
+            <p class="text-sm md:text-base mt-6 mb-6 text-justify leading-relaxed">
+                We encourage all viewers to share this moving picture exhibition with their communities, churches, and social organizations. The temperance cause requires modern tools for modern times, and we stand ready to deploy every innovation in service of sobriety and moral clarity.
+            </p>
+        </article>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="md:col-span-1 pl-6">
+        <section class="mb-8">
+            <span class="sidebar-title">Related Materials</span>
+            <div class="space-y-4">
+                <div class="border-l-4 border-black pl-3">
+                    <p class="text-xs font-bold uppercase mb-1">Temperance Movement</p>
+                    <p class="text-[10px] italic mb-2">View our comprehensive report on the Cold Water Army</p>
+                    <a href="temperance.html" class="woodblock-btn text-[9px] px-3 py-1">Read More</a>
+                </div>
+
+                <div class="border-l-4 border-black pl-3">
+                    <p class="text-xs font-bold uppercase mb-1">Women's Rights</p>
+                    <p class="text-[10px] italic mb-2">The vital role of women in reform movements</p>
+                    <a href="womens.html" class="woodblock-btn text-[9px] px-3 py-1">Read More</a>
+                </div>
+
+                <div class="border-l-4 border-black pl-3">
+                    <p class="text-xs font-bold uppercase mb-1">Anti-Slavery</p>
+                    <p class="text-[10px] italic mb-2">The struggle for universal emancipation</p>
+                    <a href="slavery.html" class="woodblock-btn text-[9px] px-3 py-1">Read More</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="ornament">❧ ❦ ❧</div>
+
+        <section class="mb-8">
+            <span class="sidebar-title">Future Exhibitions</span>
+            <p class="text-[11px] mb-3 leading-relaxed">
+                Additional moving picture exhibitions are in development. Topics to include:
+            </p>
+            <ul class="text-[10px] space-y-1 list-none">
+                <li class="pl-3 relative before:content-['•'] before:absolute before:left-0">The Waldo Game</li>
+                <li class="pl-3 relative before:content-['•'] before:absolute before:left-0">Transcendental Philosophy</li>
+            </ul>
+        </section>
+
+        <div class="border-4 border-double border-black p-4 bg-white/10">
+            <h4 class="text-xs font-bold text-center mb-2 uppercase underline">Sponsor This Work</h4>
+            <p class="text-[9px] italic leading-relaxed text-center">
+                Support the creation of educational moving pictures. Contributions accepted at the Spirit of Reform Society offices.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="mt-12 pt-6 border-t-4 border-double border-black text-center">
+    <div class="flex flex-col items-center mb-8">
+        <a href="index.html" class="woodblock-btn text-sm px-10">
+            ← Return to the Home of Reform
+        </a>
+    </div>
+
+    <div class="flex justify-between text-[9px] uppercase font-bold tracking-widest">
+        <div>Sources: Moving Picture Archive; Temperance Society Records</div>
+        <div class="text-right">Presented by: The Reform Press</div>
+    </div>
+    <p class="text-[10px] italic mt-4 opacity-70">"Technology in Service of Morality — Innovation for Justice"</p>
+</footer>
+
+</div>
+
+<script>
+/* Typing Animation */
+const titleEl = document.getElementById("masthead");
+const fullText = "The Extras";
+titleEl.textContent = "";
+let i = 0;
+const typeInterval = setInterval(() => {
+    titleEl.textContent += fullText[i];
+    i++;
+    if (i >= fullText.length) clearInterval(typeInterval);
+}, 150);
+
+/* Date Setup */
+const dateEl = document.getElementById("dynamicDate");
+const fakeDate = new Date();
+fakeDate.setFullYear(1850);
+dateEl.textContent = fakeDate.toDateString();
+
+/* Rotating Quote */
+const quotes = [
+    "The Future of Reform is Visual",
+    "Moving Pictures, Moving Hearts",
+    "Innovation Serves Justice",
+    "Technology for Temperance"
+];
+document.getElementById("rotatingQuote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+</script>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Neo-North Star | Anno Domini 1826</title>
+<title>The Spirit of Reform | Anno Domini 1826</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -19,78 +19,185 @@
 
 body {
     background-color: var(--paper-base);
-    background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    background-image: 
+        linear-gradient(rgba(232, 223, 204, 0.4), rgba(223, 212, 187, 0.4)),
+        url("https://www.transparenttextures.com/patterns/paper-fibers.png");
     color: var(--ink);
     font-family: 'Libre Baskerville', serif;
     line-height: 1.45;
+    padding-bottom: 50px;
+    padding-top: 60px; /* Offset for sticky navbar */
+}
+
+/* Sticky Navbar Styles */
+.sticky-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--paper-base);
+    border-bottom: 3px double var(--ink);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-links {
+    font-family: 'IM Fell English SC', serif;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: bold;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+/* Deckled edge / Paper texture container */
+.paper-container {
+    box-shadow: 0 0 20px rgba(0,0,0,0.1), inset 0 0 100px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
 }
 
 .newspaper-header {
-    border-bottom: 5px solid var(--ink);
-    border-top: 5px solid var(--ink);
-    padding: 10px 0;
-    margin-bottom: 20px;
+    border-bottom: 3px double var(--ink);
+    border-top: 3px double var(--ink);
+    padding: 15px 0;
+    margin-bottom: 25px;
 }
 
 .title-main {
     font-family: 'IM Fell English SC', serif;
-    letter-spacing: -1px;
+    letter-spacing: -2px;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    filter: contrast(1.2);
+    min-height: 1.2em; /* Prevents layout jump during typing */
+}
+
+/* Corner Logo Styling */
+.corner-logo {
+    height: 40px;
+    width: auto;
+    mix-blend-mode: multiply;
+    filter: contrast(1.1) brightness(0.9);
+    margin-right: 10px;
 }
 
 .column-divider {
-    border-right: 1px solid rgba(43,43,43,0.25);
+    border-right: 1px solid rgba(43,43,43,0.15);
 }
 
 .drop-cap::first-letter {
     float: left;
     font-family: 'UnifrakturMaguntia', cursive;
-    font-size: 4.5rem;
-    line-height: 0.8;
-    padding-right: 8px;
+    font-size: 5rem;
+    line-height: 0.7;
+    padding-top: 10px;
+    padding-right: 12px;
     color: #000;
 }
 
 .woodblock-btn {
     border: 2px solid var(--ink);
-    padding: 5px 10px;
+    padding: 8px 15px;
     font-family: 'IM Fell English SC', serif;
     text-transform: uppercase;
     font-weight: bold;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-block;
+    background: transparent;
+    box-shadow: 2px 2px 0px var(--ink);
 }
 
 .woodblock-btn:hover {
     background: var(--ink);
     color: var(--paper-base);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--ink);
 }
 
 .section-rule {
     border-top: 1px solid var(--ink);
-    margin: 12px 0;
+    margin: 15px 0;
+    opacity: 0.3;
 }
 
-h2, h3 {
+h2, h3, h4 {
     font-family: 'IM Fell English SC', serif;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .ads-box {
-    background-color: rgba(0,0,0,0.03);
+    background-color: rgba(0,0,0,0.04);
     border: 1px dashed var(--ink);
+    position: relative;
 }
 
-/* HIERARCHY TUNING — NO REMOVALS */
 .sidebar {
-    color: var(--ink-muted);
-    font-size: 0.75rem;
+    color: var(--ink);
+    font-size: 0.8rem;
 }
 
 .main-article {
-    padding: 0 1.25rem;
+    padding: 0 1.5rem;
 }
 
-/* INTERACTION */
+.pull-quote {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.25rem;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 15px 0;
+    margin: 25px 0;
+    text-align: center;
+    font-style: italic;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.8s ease;
+}
+
+.pull-quote.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.legal-notice {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border: 2px solid var(--ink);
+    padding: 8px;
+    margin: 12px 0;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+.highlight-box {
+    border: 1px solid var(--ink);
+    padding: 12px;
+    margin: 20px 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.paper-container:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>'), auto;
+}
+
 .continued {
     display: none;
 }
@@ -101,222 +208,210 @@ h2, h3 {
     text-decoration: underline;
 }
 
-.pull-quote {
-    font-family: 'IM Fell English SC', serif;
-    font-size: 1.25rem;
-    border-left: 4px solid var(--ink);
-    padding-left: 12px;
-    margin: 20px 0;
-    opacity: 0;
-    transform: translateX(-15px);
-    transition: all 0.6s ease;
+.ornament {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    color: var(--ink);
+    opacity: 0.6;
 }
-
-.pull-quote.visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* Engraving-style images */
-.paper-image {
-  width: 100%;
-  max-width: 260px;
-  display: block;
-  margin: 0.75rem auto;
-  border: 1px solid #000;
-  padding: 4px;
-  background: #fdfaf4;
-  filter: grayscale(100%) contrast(1.05);
-}
-
-.paper-image.large {
-  max-width: 340px;
-}
-
-.image-caption {
-  font-size: 0.7rem;
-  font-style: italic;
-  text-align: center;
-  margin-top: 0.25rem;
-  opacity: 0.75;
-}
-
-/* Float helpers for column layout */
-.float-left {
-  float: left;
-  margin: 0.5rem 0.75rem 0.5rem 0;
-}
-
-.float-right {
-  float: right;
-  margin: 0.5rem 0 0.5rem 0.75rem;
-}
-
-/* Clear floats inside articles */
-.article::after {
-  content: "";
-  display: block;
-  clear: both;
-}
-
 </style>
 </head>
 
-<body class="p-2 md:p-10">
+<body class="p-2 md:p-8">
 
-<div class="max-w-5xl mx-auto border-2 border-black p-4 bg-opacity-50">
+<!-- STICKY NAVBAR -->
+<nav class="sticky-navbar">
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="transcendentalism.html">Transcendental</a>
+        <a href="utopianism.html">Utopianism</a>
+        <a href="womens.html">Women's Rights</a>
+        <a href="slavery.html">Anti-Slavery</a>
+        <a href="temperance.html">Temperance</a>
+        <a href="extras.html">Extras</a>
+        <a href="shop.html">Shop</a>
+    </div>
+</nav>
 
-<!-- TOP METADATA -->
-<div class="flex justify-between text-sm italic font-bold border-b border-black mb-1">
-    <span>Price: Two Cents</span>
-    <span class="uppercase tracking-widest">Digital Edition for the Masses</span>
-    <span>Rochester, N.Y.</span>
+<div class="max-w-6xl mx-auto border-4 border-double border-black p-6 bg-opacity-50 paper-container">
+
+<!-- TOP METADATA (Integrated with logo) -->
+<div class="flex justify-between items-center text-xs font-bold border-b-2 border-black mb-2 pb-1">
+    <div class="flex items-center">
+        <img src="logo.png" alt="Logo" class="corner-logo">
+        <span>Extraordinary Supplement</span>
+    </div>
+    <span class="hidden md:inline uppercase tracking-[0.3em]">Digital Edition for the Masses</span>
+    <span>Rochester, N.Y. — Price: Two Cents</span>
 </div>
 
 <!-- MASTHEAD -->
-<header class="text-center mb-6">
-    <h1 id="masthead" class="title-main text-6xl md:text-9xl mb-2">The Neo-North Star</h1>
-
-    <div class="newspaper-header flex flex-col md:flex-row justify-between items-center px-4 uppercase text-xs font-bold">
-        <div class="hidden md:block">Volume XVIII</div>
-        <div id="rotatingQuote" class="text-xl italic font-serif py-1"></div>
+<header class="text-center mb-8">
+    <h1 id="masthead" class="title-main text-6xl md:text-9xl mb-2">The Spirit of Reform</h1>
+    <div class="newspaper-header flex flex-col md:flex-row justify-between items-center px-6 uppercase text-xs font-bold">
+        <div class="hidden md:block">Volume I</div>
+        <div id="rotatingQuote" class="text-2xl font-serif py-2 tracking-tight"></div>
         <div id="dynamicDate"></div>
     </div>
 </header>
 
 <!-- MAIN GRID -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 
 <!-- LEFT COLUMN -->
-<div class="md:col-span-1 column-divider pr-4 sidebar">
+<div class="md:col-span-1 column-divider pr-6 sidebar">
 <section class="mb-8">
-<h2 class="text-xl font-bold mb-2 border-b border-black">Anti-Slavery Alert</h2>
-<p class="text-sm italic mb-2">From the Encrypted Ledger of Mr. Douglass:</p>
-<p id="dailyBlurb" class="text-xs mb-4"></p>
-<a href="#" class="woodblock-btn text-xs">View the Map</a>
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">Anti-Slavery Alert</h2>
+    <p class="text-sm italic mb-2">From the Encrypted Ledger of Mr. Douglass:</p>
+    <p id="dailyBlurb" class="text-xs mb-4 leading-relaxed"></p>
+    <a href="slavery.html" class="woodblock-btn text-xs">View the Statement</a>
 </section>
 
-<div class="section-rule"></div>
+<div class="ornament">❧ ❦ ❧</div>
 
 <section class="mb-8">
-<h2 class="text-xl font-bold mb-2 border-b border-black">Women's Rights</h2>
-<p class="text-xs mb-4">How ya doin'?</p>
-<a href="#" class="woodblock-btn text-xs">Join the Caucus</a>
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">Women's Rights</h2>
+    <div class="legal-notice text-xs mb-3 font-bold uppercase">The Seneca Falls Vision</div>
+    <p class="text-xs mb-4">A movement dedicated to the full legal and social equality of all citizens.</p>
+    <a href="womens.html" class="woodblock-btn text-xs">Join the Caucus</a>
 </section>
 
-<div class="ads-box p-3 mt-4">
-<h4 class="text-xs font-bold text-center underline mb-2">WANTED</h4>
-<p class="text-[10px] italic">
-Brave souls to distribute pamphlets. Must be literate and of sound moral character.
-</p>
+<div class="ads-box p-4 mt-6">
+    <h4 class="text-xs font-bold text-center underline mb-2 uppercase">WANTED</h4>
+    <p class="text-[10px] italic leading-tight text-center">
+        Brave souls to distribute pamphlets. Must be literate and of sound moral character. Apply at the Print Shop.
+    </p>
 </div>
 </div>
 
 <!-- CENTER COLUMN -->
 <div class="md:col-span-2 column-divider main-article">
-<article>
-<h2 class="text-3xl md:text-4xl text-center mb-4 leading-tight">
-THE THIRD AWAKENING:<br>
-<span class="italic">A Digital Revival of the American Soul</span>
-</h2>
+<article class="article">
+    <h2 class="text-4xl md:text-5xl text-center mb-6 leading-none">
+        THE THIRD AWAKENING:<br>
+        <span class="italic text-2xl mt-2 block">A Digital Revival of the American Soul</span>
+    </h2>
 
+    <p class="drop-cap text-base mb-6 text-justify leading-relaxed">
+        Reformers of the current age must look to the digital tools at their disposal to spread the gospel of progress. The press, once bound by iron and ink, now travels at the speed of light. We stand at the precipice of a new era where equality and justice are not merely dreams, but attainable goals for every citizen of the Republic.
+    </p>
 
+    <div class="pull-quote" id="pullQuote">
+        “Reform is not inherited. It is rebuilt by every generation.”
+    </div>
 
-<p class="drop-cap text-sm md:text-base mb-4 text-justify">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in feugiat lectus.
-</p>
+    <p class="text-sm md:text-base mb-6 text-justify leading-relaxed">
+        The movement for temperance, equality, and abolition finds new breath within these coded columns. Let no person say the press has gone silent. We advocate for a labor force of sober, industrious character and a nation of liberated minds.
+    </p>
 
-<div class="pull-quote" id="pullQuote">
-“Reform is not inherited. It is rebuilt.”
-</div>
+    <div class="highlight-box border-2">
+        <h4 class="text-sm font-bold text-center border-b border-black mb-2 pb-1">Note to the Reader</h4>
+        <p class="text-xs text-center italic">
+            This website serves as a historical repository of the great movements that shaped our Republic. Agitate, educate, and organize!
+        </p>
+    </div>
 
-<p class="text-sm md:text-base mb-4 text-justify">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in feugiat lectus.
-</p>
+    <div class="text-center mt-6">
+        <span id="continueToggle" class="continue-link text-sm font-bold uppercase tracking-widest cursor-pointer">
+            Continued on Page II
+        </span>
+    </div>
 
-<span id="continueToggle" class="continue-link text-sm">
-Continued on Page II
-</span>
-
-<div id="continuedText" class="continued mt-4">
-<p class="text-sm md:text-base text-justify">
-Here the argument deepens. Reform requires repetition, not novelty.
-</p>
-</div>
+    <div id="continuedText" class="continued mt-6">
+        <p class="text-sm md:text-base text-justify leading-relaxed">
+            Here the argument deepens. Reform requires repetition, not novelty. The spirit of 1826 is alive in the binary of 2026. True progress is the result of persistent agitation and a refusal to accept the status quo. Join us in the march toward a more perfect union.
+        </p>
+    </div>
 </article>
 </div>
 
 <!-- RIGHT COLUMN -->
-<div class="md:col-span-1 pl-4 sidebar">
+<div class="md:col-span-1 pl-6 sidebar">
 <section class="mb-8">
-<h2 class="text-xl font-bold mb-2 border-b border-black">Transcendental</h2>
-<p class="text-xs mb-4">Mr. Thoreau has unplugged. Trust.</p>
-<a href="#" class="woodblock-btn text-xs">Listen to the Podcast</a>
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">Transcendental</h2>
+    <p class="text-xs mb-4">Mr. Thoreau has unplugged from the noise of the town to seek the essential facts of life.</p>
+    <a href="transcendentalism.html" class="woodblock-btn text-xs">View his Thoughts</a>
 </section>
 
-<div class="section-rule"></div>
+<div class="ornament">❧ ❦ ❧</div>
 
 <section class="mb-8">
-<h2 class="text-xl font-bold mb-2 border-b border-black">Utopian Living</h2>
-<p class="text-xs mb-4">Come live in our utopian town gang!</p>
-<a href="#" class="woodblock-btn text-xs">Apply for Residency</a>
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">Utopian Living</h2>
+    <p class="text-xs mb-4">In pursuit of a more perfect social order, we invite all seekers to our cooperative community.</p>
+    <a href="utopia.html" class="woodblock-btn text-xs">Apply for Residency</a>
 </section>
 
-<div class="ads-box p-3 border-double border-2 border-black">
-<h4 class="text-xs font-bold text-center mb-1 uppercase">Merchandise</h4>
-<p class="text-[10px] mb-2">
-"Sojourner Truth" Totes - $2.00<br>
-"Garrison" Stickers - 50¢
-</p>
+<div class="ornament">❖</div>
+
+<section class="mb-8">
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">Temperance</h2>
+    <p class="text-xs mb-4">A cold glass of water is the only true refreshment. Down with the demon rum!</p>
+    <a href="temperance.html" class="woodblock-btn text-xs">Pledge Sobriety</a>
+</section>
+
+<div class="ads-box p-4 border-double border-4 border-black">
+    <h4 class="text-xs font-bold text-center mb-2 uppercase underline">Merchandise</h4>
+    <p class="text-[10px] leading-relaxed text-center">
+        "Sojourner Truth" Totes - $2.00<br>
+        "Garrison" Stickers - 50¢<br>
+        <span class="italic text-[9px] mt-1 block">Proceeds benefit the Reform Society.</span>
+    </p>
 </div>
 </div>
 
 </div>
 
-<footer class="mt-10 pt-4 border-t-2 border-black text-center">
-<p class="text-[9px] italic">
-Printed on recycled parchment and delivered via the electric ether.
-</p>
+<footer class="mt-12 pt-6 border-t-4 border-double border-black text-center">
+    <p class="text-[11px] font-bold tracking-widest uppercase mb-1">
+        Agitate — Educate — Organize
+    </p>
+    <p class="text-[9px] italic opacity-70">
+        Printed on heavy recycled parchment and delivered via the electric ether.
+    </p>
 </footer>
 
 </div>
 
 <script>
-/* Typing Animation (UNCHANGED) */
+/* Typing Animation */
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const titleEl = document.getElementById("masthead");
-const fullText = titleEl.textContent;
+const fullText = "The Spirit of Reform";
 
 if (!prefersReducedMotion) {
     titleEl.textContent = "";
     let i = 0;
     const typeInterval = setInterval(() => {
-        titleEl.textContent += fullText[i];
-        i++;
-        if (i >= fullText.length) clearInterval(typeInterval);
-    }, 180);
+        if (i < fullText.length) {
+            titleEl.textContent += fullText[i];
+            i++;
+        } else {
+            clearInterval(typeInterval);
+        }
+    }, 150);
 }
 
 /* Fake Date */
 const dateEl = document.getElementById("dynamicDate");
 const fakeDate = new Date();
-fakeDate.setDate(fakeDate.getDate() + 18200);
+fakeDate.setFullYear(1826);
 dateEl.textContent = fakeDate.toDateString();
 
 /* Rotating Quote */
 const quotes = [
-    "Right has no gender; truth has no color",
-    "Agitate. Educate. Organize.",
-    "Silence is consent, neatly dressed"
+    "“Right has no gender; truth has no color”",
+    "“Agitate. Educate. Organize.”",
+    "“Silence is consent, neatly dressed”",
 ];
 document.getElementById("rotatingQuote").textContent =
 quotes[Math.floor(Math.random() * quotes.length)];
 
 /* Daily Sidebar Blurb */
 const blurbs = [
-    "'Sup gang? 'Sup abolitionists?",
-    "Pamphlets circulated before dawn.",
-    "Presses halted. Printing resumed."
+    "Abolition is the only path to a true Republic.",
+    "Pamphlets circulated before the dawn.",
+    "The North Star remains our steadfast guide."
 ];
 document.getElementById("dailyBlurb").textContent =
 blurbs[new Date().getDate() % blurbs.length];
@@ -330,7 +425,7 @@ document.getElementById("continueToggle").onclick = () => {
 /* Pull Quote Reveal */
 const pq = document.getElementById("pullQuote");
 window.addEventListener("scroll", () => {
-    if (pq.getBoundingClientRect().top < window.innerHeight - 100) {
+    if (pq.getBoundingClientRect().top < window.innerHeight - 50) {
         pq.classList.add("visible");
     }
 });

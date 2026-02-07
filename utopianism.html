@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Utopian Dreams | The Spirit of Reform</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=UnifrakturMaguntia&family=IM+Fell+English+SC&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --paper-base: #e8dfcc;
+    --paper-grain: #dfd4bb;
+    --ink: #2b2b2b;
+    --ink-muted: rgba(43,43,43,0.7);
+}
+
+body {
+    background-color: var(--paper-base);
+    background-image: 
+        linear-gradient(rgba(232, 223, 204, 0.4), rgba(223, 212, 187, 0.4)),
+        url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    color: var(--ink);
+    font-family: 'Libre Baskerville', serif;
+    line-height: 1.45;
+    padding-bottom: 50px;
+    padding-top: 60px; /* Offset for sticky navbar */
+}
+
+/* Sticky Navbar Styles */
+.sticky-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--paper-base);
+    border-bottom: 3px double var(--ink);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-links {
+    font-family: 'IM Fell English SC', serif;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: bold;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+/* Deckled edge / Paper texture container */
+.paper-container {
+    box-shadow: 0 0 20px rgba(0,0,0,0.1), inset 0 0 100px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.newspaper-header {
+    border-bottom: 3px double var(--ink);
+    border-top: 3px double var(--ink);
+    padding: 15px 0;
+    margin-bottom: 25px;
+}
+
+.title-main {
+    font-family: 'IM Fell English SC', serif;
+    letter-spacing: -2px;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    filter: contrast(1.2);
+}
+
+.column-divider {
+    border-right: 1px solid rgba(43,43,43,0.15);
+}
+
+.drop-cap::first-letter {
+    float: left;
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 5rem;
+    line-height: 0.7;
+    padding-top: 10px;
+    padding-right: 12px;
+    color: #000;
+}
+
+.woodblock-btn {
+    border: 2px solid var(--ink);
+    padding: 8px 15px;
+    font-family: 'IM Fell English SC', serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-block;
+    background: transparent;
+    box-shadow: 2px 2px 0px var(--ink);
+}
+
+.woodblock-btn:hover {
+    background: var(--ink);
+    color: var(--paper-base);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--ink);
+}
+
+.section-rule {
+    border-top: 1px solid var(--ink);
+    margin: 15px 0;
+    opacity: 0.3;
+}
+
+h2, h3, h4 {
+    font-family: 'IM Fell English SC', serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ads-box {
+    background-color: rgba(0,0,0,0.04);
+    border: 1px dashed var(--ink);
+}
+
+.sidebar {
+    color: var(--ink);
+    font-size: 0.8rem;
+}
+
+.main-article {
+    padding: 0 1.5rem;
+}
+
+.pull-quote {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.25rem;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 15px 0;
+    margin: 25px 0;
+    text-align: center;
+    font-style: italic;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.8s ease;
+}
+
+.pull-quote.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.leader-card {
+    border: 1px solid var(--ink);
+    padding: 10px;
+    margin-bottom: 15px;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.leader-portrait {
+    width: 100%;
+    max-width: 120px;
+    height: auto;
+    filter: grayscale(100%) contrast(1.2) sepia(0.2);
+    border: 1px solid var(--ink);
+    margin-bottom: 8px;
+    box-shadow: 2px 2px 0px var(--ink);
+}
+
+.society-image {
+    width: 100%;
+    height: auto;
+    filter: grayscale(100%) contrast(1.1) sepia(0.3);
+    border: 1px solid var(--ink);
+    margin: 10px 0;
+    box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+}
+
+.image-caption {
+    font-size: 0.7rem;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.leader-name {
+    font-family: 'IM Fell English SC', serif;
+    font-weight: bold;
+    text-decoration: underline;
+    display: block;
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.ornament {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    color: var(--ink);
+    opacity: 0.6;
+}
+
+.home-link-container {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.continued {
+    display: none;
+}
+
+.continue-link {
+    cursor: pointer;
+    font-style: italic;
+    text-decoration: underline;
+}
+</style>
+</head>
+
+<body class="p-2 md:p-8">
+
+<!-- STICKY NAVBAR -->
+<nav class="sticky-navbar">
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="transcendentalism.html">Transcendental</a>
+        <a href="utopianism.html">Utopianism</a>
+        <a href="womens.html">Women's Rights</a>
+        <a href="slavery.html">Anti-Slavery</a>
+        <a href="temperance.html">Temperance</a>
+        <a href="extras.html">Extras</a>
+        <a href="shop.html">Shop</a>
+    </div>
+</nav>
+
+<div class="max-w-6xl mx-auto border-4 border-double border-black p-6 bg-opacity-50 paper-container">
+
+<!-- TOP METADATA -->
+<div class="flex justify-between text-xs font-bold border-b-2 border-black mb-2 pb-1">
+    <span>Special Edition: The Ideal State</span>
+    <span class="uppercase tracking-[0.3em]">Aayush Gunjan</span>
+    <span>Rochester, N.Y. — Price: Two Cents</span>
+</div>
+
+<!-- MASTHEAD -->
+<header class="text-center mb-8">
+    <h1 id="masthead" class="title-main text-6xl md:text-9xl mb-2 text-center">Utopian Visions</h1>
+    <div class="newspaper-header flex flex-col md:flex-row justify-between items-center px-6 uppercase text-xs font-bold">
+        <div class="hidden md:block">Volume I — No. 1</div>
+        <div id="rotatingQuote" class="text-2xl font-serif py-2 tracking-tight"></div>
+        <div id="dynamicDate"></div>
+    </div>
+</header>
+
+<!-- MAIN GRID -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+<!-- LEFT COLUMN -->
+<div class="md:col-span-1 column-divider pr-6 sidebar">
+<section class="mb-8">
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">Ancient Seeds</h2>
+    <p class="mb-4 text-xs leading-relaxed">Before the word existed, the dream was written in the stars and the scriptures.</p>
+    <ul class="text-xs space-y-3">
+        <li><strong>Garden of Eden:</strong> The biblical archetype of a sinless, perfect existence.</li>
+        <div class="section-rule"></div>
+        <li><strong>Ancient Greece:</strong> Philosophers like Plato debated the mechanics of the perfect Republic.</li>
+        <div class="section-rule"></div>
+        <li><strong>Thomas More:</strong> Coined "Utopia" in 1516, depicting a classless society free from greed.</li>
+    </ul>
+</section>
+
+<div class="ornament">❧ ❦ ❧</div>
+
+<section class="mb-8">
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">The Creed</h2>
+    <p class="font-bold text-[10px] uppercase mb-1">Our Belief:</p>
+    <p class="mb-4 italic text-xs">"The possibility of a harmonious society, free from worry, poverty, and suffering."</p>
+</section>
+
+<div class="ads-box p-4 border-dashed border border-black">
+    <h4 class="text-xs font-bold text-center underline mb-2 uppercase">NOTICE</h4>
+    <p class="text-[10px] italic leading-tight text-center">
+        Lost: One copy of "Republic" by Plato. Last seen near the commons. Please return to the library.
+    </p>
+</div>
+</div>
+
+<!-- CENTER COLUMN -->
+<div class="md:col-span-2 column-divider main-article">
+<article>
+    <h2 class="text-4xl md:text-5xl text-center mb-6 leading-none uppercase">
+        EXPERIMENTS IN VIRTUE:<br>
+        <span class="italic text-2xl mt-2 block normal-case font-serif">The Rise of the American Utopias</span>
+    </h2>
+
+    <p class="drop-cap text-base mb-6 text-justify leading-relaxed">
+        Utopianism, the aspiration to create a better, perfect society, swept across the American landscape in the early 1800s. Seeking to escape the perceived corruptions of modern life, brave souls set up communities separate from society to improve their lives through the sharing of property, labor, and family life. These organizers hoped to promote virtue and inspire the world outside their fences.
+    </p>
+
+    <div class="pull-quote" id="pullQuote">
+        “Combine the thinker and the worker, as far as possible, in the same individual.” — George Ripley
+    </div>
+
+    <h3 class="text-xl font-bold border-b-2 border-black pb-1 mb-4">New Harmony & Brook Farm</h3>
+    
+    <img src="newHarmony.jpeg" alt="New Harmony Indiana" class="society-image">
+    <span class="image-caption">A view of New Harmony, Indiana; Robert Owen's experiment in social cooperation.</span>
+
+    <p class="text-sm md:text-base mb-6 text-justify leading-relaxed">
+        In 1825, British reformer Robert Owen established <strong>New Harmony</strong> in Indiana. He sought a cooperative society of 1000 industrious people to pursue science away from capitalist pressures. 
+    </p>
+
+    <img src="brookFarm.jpeg" alt="Brook Farm Massachusetts" class="society-image">
+    <span class="image-caption">Brook Farm, West Roxbury, Massachusetts.</span>
+
+    <p class="text-sm md:text-base mb-6 text-justify leading-relaxed">
+        Meanwhile, in 1841, <strong>Brook Farm</strong> in Massachusetts saw 80 Transcendentalists attempt to merge physical labor with intellectual pursuit.
+    </p>
+
+    <div class="text-center mt-6">
+        <span id="continueToggle" class="continue-link text-sm font-bold uppercase tracking-widest cursor-pointer">
+            Read of the Oneida & Fruitlands Experiments
+        </span>
+    </div>
+
+    <div id="continuedText" class="continued mt-8">
+        <h3 class="text-xl font-bold border-b-2 border-black pb-1 mb-4">The Oneida Colony (1848)</h3>
+        
+        <img src="oneida.jpeg" alt="Oneida Community Mansion" class="society-image">
+        <span class="image-caption">The residents at the Oneida Community, New York.</span>
+
+        <p class="text-sm mb-4 leading-relaxed text-justify">
+            Founded by John Humphrey Noyes, this community practiced "complex marriage," considering all members married to one another. Monogamy was rejected, and decisions on childbearing were managed by committee.
+        </p>
+
+        <h3 class="text-xl font-bold border-b-2 border-black pb-1 mb-4">Fruitlands: A Stricter Path</h3>
+        
+        <img src="fruitlands.jpeg" alt="Fruitlands House" class="society-image">
+        <span class="image-caption">The original farmhouse at Fruitlands, Harvard, Massachusetts.</span>
+
+        <p class="text-sm mb-6 leading-relaxed text-justify">
+            Bronson Alcott founded Fruitlands with severe rigor: no meat, no animal labor, and only water. The project collapsed under the weight of a harsh winter after less than seven months.
+        </p>
+        <div class="section-rule opacity-100"></div>
+        <p class="text-xs italic text-center opacity-70">Most of these 50+ communities were short-lived, failing due to financial instability.</p>
+    </div>
+</article>
+</div>
+
+<!-- RIGHT COLUMN -->
+<div class="md:col-span-1 pl-6 sidebar">
+<section class="mb-8">
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">The Shakers</h2>
+    
+    <img src="shakers.jpeg" alt="The Shakers" class="society-image">
+    <span class="image-caption">A Shaker religious dance, illustrative of their communal worship.</span>
+    
+    <p class="text-xs mb-4 leading-relaxed italic">Known for celibacy and high-quality crafts, they are among the most successful of the communal experiments.</p>
+</section>
+
+<div class="ornament">❧ ❦ ❧</div>
+
+<section class="mb-8">
+    <h2 class="text-xl font-bold mb-3 border-b-2 border-black pb-1">Pivotal Figures</h2>
+    
+    <div class="leader-card">
+        <img src="lee.jpeg" alt="Mother Ann Lee" class="leader-portrait">
+        <span class="leader-name">Mother Ann Lee</span>
+        <p class="text-[10px] text-center leading-tight">Founder of the Shakers; claimed revelations of a pure life and established eight communities.</p>
+    </div>
+
+    <div class="leader-card">
+        <img src="owen.jpeg" alt="Robert Owen" class="leader-portrait">
+        <span class="leader-name">Robert Owen</span>
+        <p class="text-[10px] text-center leading-tight">Father of British Socialism; provided healthcare to workers and founded New Harmony.</p>
+    </div>
+
+    <div class="leader-card">
+        <img src="ripley.jpeg" alt="George Ripley" class="leader-portrait">
+        <span class="leader-name">George Ripley</span>
+        <p class="text-[10px] text-center leading-tight">Unitarian minister and editor of The Dial; founded Brook Farm to merge nature with intellect.</p>
+    </div>
+</section>
+
+<div class="ads-box p-4 border-double border-4 border-black">
+    <h4 class="text-xs font-bold text-center mb-2 uppercase underline">For Sale</h4>
+    <p class="text-[10px] text-center leading-relaxed">
+        Shaker Seed Packets - 10¢<br>
+        Fine Woven Baskets - $1.50<br>
+        Utopian Pamphlets - Free!
+    </p>
+</div>
+</div>
+
+</div>
+
+<!-- HOME NAVIGATION -->
+<div class="home-link-container">
+    <a href="index.html" class="woodblock-btn text-sm">
+        ← Return to Main Edition
+    </a>
+</div>
+
+<!-- FOOTER -->
+<footer class="mt-8 pt-6 border-t-4 border-double border-black">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-[9px] uppercase tracking-widest font-bold">
+        <div>
+            <strong>Manuscripts:</strong><br>
+            <span class="opacity-70">More's Utopia; Owen's A New View of Society.</span>
+        </div>
+        <div class="text-right">
+            <strong>Archives:</strong><br>
+            <span class="opacity-70">History.com; Britannica; NPS Archives.</span>
+        </div>
+    </div>
+    <p class="text-center mt-6 text-[10px] italic opacity-80">
+        "Reform is not inherited. It is rebuilt." Printed on recycled parchment.
+    </p>
+</footer>
+
+</div>
+
+<script>
+/* Typing Animation */
+const titleEl = document.getElementById("masthead");
+const fullText = "Utopian Visions";
+titleEl.textContent = "";
+let i = 0;
+const typeInterval = setInterval(() => {
+    titleEl.textContent += fullText[i];
+    i++;
+    if (i >= fullText.length) clearInterval(typeInterval);
+}, 150);
+
+/* Fake Date */
+const dateEl = document.getElementById("dynamicDate");
+const fakeDate = new Date();
+fakeDate.setFullYear(1826);
+dateEl.textContent = fakeDate.toDateString();
+
+/* Rotating Quote */
+const quotes = [
+    "“A map without Utopia is not worth glancing at.”",
+    "“Labor is a blessing, when shared equally.”",
+    "“Simplicity in life, greatness in thought.”",
+];
+document.getElementById("rotatingQuote").textContent =
+quotes[Math.floor(Math.random() * quotes.length)];
+
+/* Continued Section */
+document.getElementById("continueToggle").onclick = () => {
+    document.getElementById("continuedText").style.display = "block";
+    document.getElementById("continueToggle").style.display = "none";
+};
+
+/* Pull Quote Reveal */
+const pq = document.getElementById("pullQuote");
+window.addEventListener("scroll", () => {
+    if (pq.getBoundingClientRect().top < window.innerHeight - 50) {
+        pq.classList.add("visible");
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Spirit of Reform | Anno Domini 1826</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=UnifrakturMaguntia&family=IM+Fell+English+SC&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --paper-base: #e8dfcc;
+    --paper-grain: #dfd4bb;
+    --ink: #2b2b2b;
+    --ink-muted: rgba(43,43,43,0.7);
+    --accent: #2e4a62; /* Cold Water blue for Temperance */
+}
+
+body {
+    background-color: var(--paper-base);
+    background-image: 
+        linear-gradient(rgba(232, 223, 204, 0.4), rgba(223, 212, 187, 0.4)),
+        url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    color: var(--ink);
+    font-family: 'Libre Baskerville', serif;
+    line-height: 1.45;
+    padding-bottom: 50px;
+    padding-top: 60px; /* Offset for sticky navbar */
+}
+
+/* Custom Cursor */
+.paper-container:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>'), auto;
+}
+
+/* Sticky Navbar */
+.sticky-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--paper-base);
+    border-bottom: 3px double var(--ink);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-links {
+    font-family: 'IM Fell English SC', serif;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: bold;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+.paper-container {
+    box-shadow: 0 0 20px rgba(0,0,0,0.1), inset 0 0 100px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.newspaper-header {
+    border-bottom: 3px double var(--ink);
+    border-top: 3px double var(--ink);
+    padding: 15px 0;
+    margin-bottom: 25px;
+}
+
+.title-main {
+    font-family: 'IM Fell English SC', serif;
+    letter-spacing: -2px;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    filter: contrast(1.2);
+}
+
+.column-divider {
+    border-right: 1px solid rgba(43,43,43,0.15);
+}
+
+.drop-cap::first-letter {
+    float: left;
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 5rem;
+    line-height: 0.7;
+    padding-top: 10px;
+    padding-right: 12px;
+    color: var(--accent);
+}
+
+.woodblock-btn {
+    border: 2px solid var(--ink);
+    padding: 8px 15px;
+    font-family: 'IM Fell English SC', serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-block;
+    background: transparent;
+    box-shadow: 2px 2px 0px var(--ink);
+    cursor: pointer;
+}
+
+.woodblock-btn:hover {
+    background: var(--ink);
+    color: var(--paper-base);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--ink);
+}
+
+.historical-img {
+    width: 100%;
+    filter: sepia(0.5) contrast(1.1) grayscale(0.2);
+    border: 1px solid var(--ink);
+    padding: 4px;
+    background: white;
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    margin-bottom: 8px;
+}
+
+.caption {
+    font-size: 0.7rem;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.sidebar-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.2rem;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 12px;
+    display: block;
+    text-transform: uppercase;
+}
+
+.ornament {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 1.5rem 0;
+    color: var(--ink);
+    opacity: 0.6;
+}
+
+.highlight-box {
+    border: 1px solid var(--ink);
+    padding: 12px;
+    margin: 20px 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.pull-quote {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.25rem;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 15px 0;
+    margin: 25px 0;
+    text-align: center;
+    font-style: italic;
+}
+</style>
+</head>
+
+<body class="p-2 md:p-8">
+
+<!-- STICKY NAVBAR -->
+<nav class="sticky-navbar">
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="transcendentalism.html">Transcendental</a>
+        <a href="utopianism.html">Utopianism</a>
+        <a href="womens.html">Women's Rights</a>
+        <a href="slavery.html">Anti-Slavery</a>
+        <a href="temperance.html">Temperance</a>
+        <a href="extras.html">Extras</a>
+        <a href="shop.html">Shop</a>
+    </div>
+</nav>
+
+<div class="max-w-6xl mx-auto border-4 border-double border-black p-6 bg-opacity-50 paper-container relative">
+
+<!-- TOP METADATA -->
+<div class="flex justify-between text-xs font-bold border-b-2 border-black mb-2 pb-1">
+    <span>Extraordinary Supplement</span>
+    <span class="uppercase tracking-[0.3em]">Advik Gupta</span>
+    <span>No. XXIV — Price: One Halfpenny</span>
+</div>
+
+<!-- MASTHEAD -->
+<header class="text-center mb-8">
+    <h1 id="masthead" class="title-main text-6xl md:text-9xl mb-2">The Spirit of Reform</h1>
+    <div class="newspaper-header flex flex-col md:flex-row justify-between items-center px-6 uppercase text-xs font-bold">
+        <div class="hidden md:block">Volume I</div>
+        <div id="rotatingQuote" class="text-2xl font-serif py-2 tracking-tight"></div>
+        <div id="dynamicDate"></div>
+    </div>
+</header>
+
+<!-- MAIN GRID -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+    <!-- LEFT COLUMN -->
+    <div class="md:col-span-1 column-divider pr-6">
+        <section class="mb-8">
+            <span class="sidebar-title">The Beecher Crusade</span>
+            <img src="beecher.jpeg" alt="Lyman Beecher" class="historical-img">
+            <p class="caption">Rev. Lyman Beecher, Champion of Sobriety</p>
+            
+            <p class="mb-2 font-bold text-black text-sm">American Temperance Society</p>
+            <p class="italic mb-3 text-xs text-black opacity-80">Organized 1826</p>
+            <p class="text-[11px] mb-3 leading-relaxed"><strong>Mandate:</strong> To urge total abstinence and illuminate the dark path of the intemperate. We promote a labor force of sober, industrious character.</p>
+            <div class="highlight-box py-2 text-center font-bold text-xs uppercase bg-black text-white">
+                1.25 Million Strong (1835)
+            </div>
+        </section>
+
+        <div class="ornament">❧ ❦ ❧</div>
+
+        <section class="mb-8">
+            <span class="sidebar-title">Lex Scripta</span>
+            <div class="border-2 border-black p-3 mb-4 text-center bg-white/20">
+                <p class="text-[10px] font-bold uppercase tracking-widest">The Maine Law (1851)</p>
+                <p class="text-[9px] italic">The first state to successfully ban the sale of spirits.</p>
+            </div>
+            <p class="text-[11px] mb-2 italic">Localities across the Union begin to banish the manufacture of ardent spirits entirely.</p>
+        </section>
+
+        <div class="bg-black/5 border border-dashed border-black p-4 mt-6">
+            <h4 class="text-xs font-bold text-center underline mb-2">EMPLOYMENT NOTICE</h4>
+            <p class="text-[10px] italic leading-tight text-center">
+                Mechanics and laborers who have signed the Pledge will find favor and higher wages at the local mills.
+            </p>
+        </div>
+    </div>
+
+    <!-- CENTER COLUMN -->
+    <div class="md:col-span-2 column-divider px-4">
+        <article>
+            <h2 class="text-4xl md:text-5xl text-center mb-6 leading-none uppercase">
+                THE GREAT MORAL REVIVAL<br>
+                <span class="italic text-2xl mt-2 block normal-case font-serif">Reform in the Age of Industry</span>
+            </h2>
+
+            <div class="image-box mb-6">
+                <img src="drunkardProgress.jpeg" alt="The Drunkard's Progress" class="historical-img">
+                <p class="caption">The Drunkard's Progress: From the first glass to the grave.</p>
+            </div>
+
+            <p class="drop-cap text-base mb-6 text-justify leading-relaxed">
+                Industrialization has brought great wealth to our shores, yet it has also brought a shadow. The increase of alcohol has birthed a nursery of crime, sickness, and poverty. It is the root of child neglect and the domestic abuse that plagues our homes. Reformers have rallied at a national level to promote <strong>Temperance</strong>—the noble art of drinking less, or ideally, not at all.
+            </p>
+
+            <div class="ornament">❖</div>
+
+            <h3 class="text-xl font-bold mb-4 text-center tracking-widest uppercase">Four Schools of Thought</h3>
+            <div class="space-y-4 mb-8">
+                <div class="border-l-4 border-black pl-4">
+                    <p class="text-sm font-bold uppercase">I. The Civil Compact</p>
+                    <p class="text-xs italic">Fearing that drunkenness is a threat to a law-abiding society and prosperity.</p>
+                </div>
+                <div class="border-l-4 border-black pl-4">
+                    <p class="text-sm font-bold uppercase">II. The Spiritual Witness</p>
+                    <p class="text-xs italic">Religiously motivated souls who view spirits as a direct sin against the Creator.</p>
+                </div>
+                <div class="border-l-4 border-black pl-4">
+                    <p class="text-sm font-bold uppercase">III. The Domestic Shield</p>
+                    <p class="text-xs italic">Protecting the sanctity of the home from the violence visited upon women.</p>
+                </div>
+                <div class="border-l-4 border-black pl-4">
+                    <p class="text-sm font-bold uppercase">IV. The Physician’s Warning</p>
+                    <p class="text-xs italic">Scientific minds who have deduced that alcohol is a literal poison.</p>
+                </div>
+            </div>
+
+            <div class="pull-quote">
+                “Individual temperance is the seed; Legal Prohibition is the harvest.”
+            </div>
+
+            <p class="text-sm mb-4 text-justify leading-relaxed">
+                Mayor Neal Dow of Portland has achieved what many thought impossible: a total ban on the manufacture and sale of liquor. This is no mere moral suasion; it is <strong>Government Enforcement</strong>. His success has ignited a fire, with other states following en suite.
+            </p>
+
+            <div class="highlight-box border-double border-4">
+                <h4 class="text-sm font-bold text-center border-b border-black mb-2 pb-1">The Washingtonian Pledge</h4>
+                <p class="text-xs text-center italic">
+                    Focusing on the individual, over 600,000 members have pledged total abstinence. Notably, 150,000 of these were formerly hard drinkers.
+                </p>
+            </div>
+        </article>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="md:col-span-1 pl-6">
+        <section class="mb-8">
+            <span class="sidebar-title">The Ladies’ Resolve</span>
+            <img src="anthony.jpeg" alt="Susan B Anthony" class="historical-img">
+            <p class="caption">Miss Susan B. Anthony, Temperance Advocate</p>
+            
+            <p class="text-[12px] mb-2 font-bold uppercase leading-tight">N.Y. State Women’s Temperance Society</p>
+            <p class="text-[10px] italic mb-3 opacity-80">Est. 1852 — Stanton & Anthony</p>
+            <p class="text-[11px] mb-3"><strong>The Right to Divorce:</strong> Demanding legal separation from drunken husbands to ensure safety.</p>
+        </section>
+
+        <div class="ornament">❧ ❦ ❧</div>
+
+        <section class="mb-8">
+            <span class="sidebar-title">Sly Evasions</span>
+            <p class="text-[10px] italic mb-3">Reflecting on the repealed 15-Gallon Law:</p>
+            <ul class="text-[10px] list-none space-y-4">
+                <li class="relative pl-4 before:content-['❧'] before:absolute before:left-0"><strong>The Syndicate:</strong> Men pooling their pennies to buy 15 gallons for communal use.</li>
+                <li class="relative pl-4 before:content-['❧'] before:absolute before:left-0"><strong>The 16-Gallon Loophole:</strong> Buying 16 gallons and selling 15 back to the merchant.</li>
+                <li class="relative pl-4 before:content-['❧'] before:absolute before:left-0"><strong>The Striped Pig:</strong> Charging sixpence to see a "striped pig" in a tent, with a "free" glass of rum.</li>
+            </ul>
+        </section>
+
+        <div class="bg-black/10 border-4 border-double border-black p-4 mt-8">
+            <h4 class="text-xs font-bold text-center mb-2 uppercase underline">Authorities</h4>
+            <p class="text-[9px] leading-relaxed italic text-center">
+                Compiled from the Public Records of the American Temperance Society, The Maine Legislative Journals (1851).
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="mt-12 pt-6 border-t-4 border-double border-black text-center">
+    <div class="flex flex-col items-center mb-8">
+        <a href="index.html" class="woodblock-btn text-sm px-10">
+            ← Return to the Home of Reform
+        </a>
+    </div>
+
+    <div class="flex justify-between text-[9px] uppercase font-bold tracking-widest">
+        <div>Sources: Library of Congress; American Temperance Society Records.</div>
+        <div class="text-right">Printed by: Cold Water Press, Boston</div>
+    </div>
+    <p class="text-[10px] italic mt-4 opacity-70">"Agitate — Educate — Organize. A Sober Republic is a Free Republic."</p>
+</footer>
+
+</div>
+
+<script>
+/* Typing Animation */
+const titleEl = document.getElementById("masthead");
+const fullText = "The Spirit of Reform";
+titleEl.textContent = "";
+let i = 0;
+const typeInterval = setInterval(() => {
+    titleEl.textContent += fullText[i];
+    i++;
+    if (i >= fullText.length) clearInterval(typeInterval);
+}, 150);
+
+/* Date Setup */
+const dateEl = document.getElementById("dynamicDate");
+const fakeDate = new Date();
+fakeDate.setFullYear(1826);
+dateEl.textContent = fakeDate.toDateString();
+
+/* Rotating Quote */
+const quotes = [
+    "“A Nation’s Strength Lies in its Sobriety”",
+    "“Touch not, taste not, handle not.”",
+    "“The drink of the gods is cold water.”",
+    "“Moral Suasion is the light of reform.”"
+];
+document.getElementById("rotatingQuote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+</script>
+
+</body>
+</html>
